@@ -28,7 +28,7 @@ export function DetailCliente({ id }) {
 export function UpdateCliente({ id }) {
   return (
     <Link
-      href={`/dashboard/clientes/${id}/edit`}
+      href={`/dashboard/clientes/${id}/editar`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
