@@ -1,17 +1,18 @@
 import {
     BanknotesIcon,
-    ClockIcon,
-    UserGroupIcon,
-    InboxIcon,
+    ArrowPathRoundedSquareIcon,
+    RectangleStackIcon,
+    BoltIcon,
   } from '@heroicons/react/24/outline';
   import { lusitana } from '@/app/ui/fonts';
+  
 //   import { fetchCardData } from '@/app/lib/data';
   
   const iconMap = {
-    collected: BanknotesIcon,
-    customers: UserGroupIcon,
-    pending: ClockIcon,
-    invoices: InboxIcon,
+    proposta: BanknotesIcon,
+    inversores: ArrowPathRoundedSquareIcon,
+    consumo: BoltIcon,
+    modulos: RectangleStackIcon,
   };
   
   export default async function CardWrapper() {
@@ -23,28 +24,28 @@ import {
     // } = await fetchCardData();
 
     const {
-        numberOfInvoices,
-        numberOfCustomers,
-        totalPaidInvoices,
-        totalPendingInvoices,
+        qtdeModulos,
+        qtdeInv,
+        proposta,
+        consumoprod,
       } = {
-        numberOfInvoices: 1,
-        numberOfCustomers: 1,
-        totalPaidInvoices: 100,
-        totalPendingInvoices: 100,
+        qtdeModulos: 10,
+        qtdeInv: 1,
+        proposta: "R$ 19,900.00",
+        consumoprod: [500, 517],
       };
     
     return (
       <>
         {/* NOTE: comment in this code when you get to this point in the course */}
   
-        <Card title="Collected" value={totalPaidInvoices} type="collected" />
-        <Card title="Pending" value={totalPendingInvoices} type="pending" />
-        <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
+        <Card title="Proposta" value={proposta} type="proposta" />
+        <Card title="Consumo / Produção" value={consumoprod} type="consumo" />
+        <Card title="Quantidade de Módulos" value={qtdeModulos} type="modulos" />
         <Card
-          title="Total Customers"
-          value={numberOfCustomers}
-          type="customers"
+          title="Quantidade de Inversores"
+          value={qtdeInv}
+          type="inversores"
         />
       </>
     );
@@ -63,7 +64,12 @@ import {
           className={`${lusitana.className}
             truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`}
         >
-          {value}
+          {type === "consumo" ? 
+          (<>
+          <span className='text-red-600'>{`${value[0]}`}</span> / 
+          <span className='text-green-600'>{` ${value[1]}`}</span>
+          </>)
+          : value}
         </p>
       </div>
     );

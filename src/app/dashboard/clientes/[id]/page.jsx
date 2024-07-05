@@ -1,9 +1,9 @@
 import CardWrapper from '@/app/ui/dashboard/cards';
-// import RevenueChart from '@/app/ui/dashboard/revenue-chart';
+import ClienteDetail from '@/app/ui/dashboard/cliente-detail';
 import LatestUCs from '@/app/ui/dashboard/latest-ucs';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
-import { CardsSkeleton, LatestUCsSkeleton, RevenueChartSkeleton } from '@/app/ui/skeletons';
+import { CardsSkeleton, ClienteDetailSkeleton, LatestUCsSkeleton } from '@/app/ui/skeletons';
  
 export default async function Page({ params }) {
     const { id } = params;
@@ -19,8 +19,8 @@ export default async function Page({ params }) {
         </Suspense>
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <Suspense fallback={<RevenueChartSkeleton />}>
-          {/* <RevenueChart /> */}
+        <Suspense fallback={<ClienteDetailSkeleton />}>
+          <ClienteDetail />
         </Suspense>
         <Suspense fallback={<LatestUCsSkeleton />}>
           <LatestUCs />
