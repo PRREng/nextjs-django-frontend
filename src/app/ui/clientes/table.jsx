@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { DetailCliente, UpdateCliente, DeleteCliente } from '@/app/ui/clientes/buttons';
 // import InvoiceStatus from '@/app/ui/invoices/status';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
+import { formatDateToLocal, formatCurrency } from '@/lib/utils';
 // import { fetchFilteredInvoices } from '@/app/lib/data';
 
 export default async function ClientesTable({ query, currentPage }) {

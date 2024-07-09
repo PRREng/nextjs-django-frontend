@@ -11,7 +11,7 @@ import {
   UserIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createClient } from '@/app/lib/actions'; // dummy for now
+import { createClient } from '@/lib/actions'; // dummy for now
 import { useActionState } from 'react';
 
 export default function Form() {
