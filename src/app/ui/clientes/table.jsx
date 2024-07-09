@@ -48,7 +48,7 @@ export default async function ClientesTable({ query, currentPage }) {
                     <p>{cliente.data}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateCliente id={cliente.id} />
+                    <DetailCliente id={cliente.id} />
                     <DeleteCliente id={cliente.id} />
                   </div>
                 </div>
@@ -111,7 +111,6 @@ export default async function ClientesTable({ query, currentPage }) {
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <DetailCliente id={cliente.id} />
-                      <UpdateCliente id={cliente.id} />
                       <DeleteCliente id={cliente.id} />
                     </div>
                   </td>

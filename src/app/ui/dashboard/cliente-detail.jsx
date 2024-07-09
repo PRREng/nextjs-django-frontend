@@ -1,6 +1,7 @@
 import { generateYAxis } from '@/lib/utils';
 import { UserIcon, TrashIcon, PhoneIcon, IdentificationIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
+import { GerarDocumento, UpdateCliente } from '../clientes/buttons';
 // import { fetchRevenue } from '@/app/lib/data';
 
 // This component is representational only.
@@ -23,9 +24,13 @@ export default async function ClienteDetail() {
 
   return (
     <div className="w-full md:col-span-4">
-      <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Detalhe
-      </h2>
+      <div className="mb-4 flex flex-row items-center">
+        <h2 className={`${lusitana.className} text-xl md:text-2xl`}>
+          Detalhe
+        </h2>
+        <div className="flex-1"></div>
+        <GerarDocumento />
+      </div>
       {/* NOTE: comment in this code when you get to this point in the course */}
 
       <div className="rounded-xl bg-gray-50 p-4">
@@ -34,6 +39,8 @@ export default async function ClienteDetail() {
                 <div className='flex items-center'>
                     <UserIcon className='w-8 h-8 px-1' />
                     <p className='px-1'>Roberto Felipe Menezes</p>
+                    <div className="flex-1"></div>
+                    <UpdateCliente />
                 </div>
                 <div className='flex items-center'>
                     <PhoneIcon className='w-8 h-8 px-1' />

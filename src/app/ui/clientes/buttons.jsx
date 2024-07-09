@@ -18,7 +18,7 @@ export function DetailCliente({ id }) {
   return (
     <Link
       href={`/dashboard/clientes/${id}/`}
-      className="rounded-md border p-2 hover:bg-gray-100"
+      className="rounded-md border py-2 px-3 hover:bg-gray-100"
     >
       ...
     </Link>
@@ -29,7 +29,7 @@ export function UpdateCliente({ id }) {
   return (
     <Link
       href={`/dashboard/clientes/${id}/editar`}
-      className="rounded-md border p-2 hover:bg-gray-100"
+      className="rounded-md w-50 border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
     </Link>
@@ -70,5 +70,38 @@ export function DeleteUC({ id }) {
         <TrashIcon className="w-5" />
       </button>
     </form>
+  );
+}
+
+export function UpdateProjeto({ id }) {
+  return (
+    <Link
+      href={`/dashboard/clientes/${id}/editar`}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <PencilIcon className="w-5" />
+    </Link>
+  );
+}
+
+export function GerarProposta({ id }) {
+  return (
+    <Link
+      href={`/dashboard/clientes/${id}`}
+      className="rounded-md bg-gray-200 border p-2 hover:bg-gray-400"
+    >
+      Gerar Proposta
+    </Link>
+  );
+}
+
+export function GerarDocumento({ id }) {
+  return (
+    <Link
+      href={`/dashboard/clientes/${id}`}
+      className="rounded-md bg-gray-200 border p-2 hover:bg-gray-400 text-sm"
+    >
+      Gerar Contrato
+    </Link>
   );
 }

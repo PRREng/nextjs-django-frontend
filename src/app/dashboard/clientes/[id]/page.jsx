@@ -4,15 +4,21 @@ import LatestUCs from '@/app/ui/dashboard/latest-ucs';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { CardsSkeleton, ClienteDetailSkeleton, LatestUCsSkeleton } from '@/app/ui/skeletons';
+import { GerarProposta, UpdateProjeto } from '@/app/ui/clientes/buttons';
  
 export default async function Page({ params }) {
     const { id } = params;
 
   return (
     <main>
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Projeto
-      </h1>
+      <div className="mb-4 flex flex-row items-center gap-4">
+        <h1 className={`${lusitana.className} text-xl md:text-2xl`}>
+          Projeto
+        </h1>
+        <div className="flex-1"></div>
+        <UpdateProjeto />
+        <GerarProposta />
+      </div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />
