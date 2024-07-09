@@ -8,8 +8,9 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import { DeleteUC, UpdateUC } from '../clientes/buttons';
+import Link from 'next/link';
 // import { fetchLatestInvoices } from '@/app/lib/data';
-export default async function LatestUCs() {
+export default async function LatestUCs({ client_id }) {
 
 //   const latestInvoices = await fetchLatestInvoices();
 // primeiro é a usina (fetch usina primeiro)
@@ -99,9 +100,9 @@ const latestUCs = [
           })}
         </div>
         <div className="flex justify-center items-center pb-2 pt-6">
-          <div className='bg-orange-300 cursor-pointer hover:bg-orange-400 w-20 rounded-lg flex justify-center items-center'>
+          <Link href={`/dashboard/clientes/${client_id}/criar-uc`} className='bg-orange-300 cursor-pointer hover:bg-orange-400 w-20 rounded-lg flex justify-center items-center'>
             <PlusIcon className="h-11 w-11 py-3 text-gray-500" />
-          </div>
+          </Link>
         </div>
       </div>
     </div>

@@ -23,7 +23,7 @@ export default async function Page({ params }) {
           <ClienteDetail />
         </Suspense>
         <Suspense fallback={<LatestUCsSkeleton />}>
-          <LatestUCs />
+          <LatestUCs client_id={id} />
         </Suspense>
       </div>
     </main>
