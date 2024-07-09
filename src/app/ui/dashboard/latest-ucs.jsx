@@ -92,7 +92,7 @@ const latestUCs = [
                   {uc.consumo} kwh
                 </p>
                 <div className="flex justify-end gap-2">
-                  <UpdateUC id={uc.id} />
+                  <UpdateUC client_id={client_id} uc_id={uc.id} />
                   <DeleteUC id={uc.id} />
                 </div>
               </div>

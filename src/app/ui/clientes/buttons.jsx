@@ -49,10 +49,10 @@ export function DeleteCliente({ id }) {
   );
 }
 
-export function UpdateUC({ id }) {
+export function UpdateUC({ client_id, uc_id }) {
   return (
     <Link
-      href={`/dashboard/clientes/${id}/edit`}
+      href={`/dashboard/clientes/${client_id}/${uc_id}/editar`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
