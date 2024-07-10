@@ -104,7 +104,7 @@ export default function Form({ cliente }) {
 
         {/* Invoice Status */}
         <fieldset>
-          <label htmlFor="phone" className="mb-2 block text-sm font-medium">
+          <label htmlFor="cpf" className="mb-2 block text-sm font-medium">
             CPF / CNPJ
           </label>
           <div className="relative mt-2 rounded-md">

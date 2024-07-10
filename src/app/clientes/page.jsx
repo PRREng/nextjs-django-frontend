@@ -29,7 +29,7 @@ export default function Page() {
     useEffect(() => {
         if (error?.status === 401) {
             //
-            auth.loginRequiredRedirect();   
+            auth.loginRequiredRedirect();
         }
     }, [auth, error]);
 

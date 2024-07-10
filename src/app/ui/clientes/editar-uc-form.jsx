@@ -128,6 +128,7 @@ export default function Form({ client_id, uc }) {
 
         {/* Rural ou urbano, complemento, cidade, estado */}
         <div className="flex flex-row gap-5">
+            {/* Rural ou urbano */}
             <div className="mb-4 flex-2">
               <fieldset>
                 <legend className="mb-2 block text-sm font-medium">
@@ -173,7 +174,7 @@ export default function Form({ client_id, uc }) {
               </fieldset>
             </div>
 
-
+            {/* Complemento */}
             <div className="mb-4 flex-2">
                 <legend htmlFor="complemento" className='mb-2 block text-sm font-medium'>
                     Complemento
