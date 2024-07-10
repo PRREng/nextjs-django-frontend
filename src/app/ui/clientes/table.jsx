@@ -2,17 +2,17 @@ import Image from 'next/image';
 import { DetailCliente, UpdateCliente, DeleteCliente } from '@/app/ui/clientes/buttons';
 // import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/lib/utils';
+import { fetchClientes } from '@/lib/fetching';
 // import { fetchFilteredInvoices } from '@/app/lib/data';
 
 export default async function ClientesTable({ query, currentPage }) {
 //   const invoices = await fetchFilteredInvoices(query, currentPage);
-    const clientes = [{
-      id: '1',
-      nome: 'Roberto Menezes',
-      endereco: 'Rua Armando Barros, 81',
-      proposta: 1990000,
-      data: '3 de junho, 2024',
-    }];
+
+    const clientes = await fetchClientes();
+    console.log(typeof clientes);
+    console.log(clientes);
+    console.log(clientes[0].criadoem);
+    console.log(typeof clientes[0].criadoem);
 
   return (
     <div className="mt-6 flow-root">
@@ -26,14 +26,7 @@ export default async function ClientesTable({ query, currentPage }) {
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
-                    <div className="mb-2 flex items-center">
-                      {/* <Image
-                        src={cliente.image_url}
-                        className="mr-2 rounded-full"
-                        width={28}
-                        height={28}
-                        alt={`${cliente.name}'s profile picture`}
-                      /> */}
+                    <div className="mb-2 flex items-center">   
                       <p>{cliente.nome}</p>
                     </div>
                     <p className="text-sm text-gray-500">{cliente.endereco}</p>
@@ -43,9 +36,9 @@ export default async function ClientesTable({ query, currentPage }) {
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
                     <p className="text-xl font-medium">
-                      {formatCurrency(cliente.proposta)}
+                      {formatCurrency(1990000)}
                     </p>
-                    <p>{cliente.data}</p>
+                    <p>{cliente.criadoem}</p>
                   </div>
                   <div className="flex justify-end gap-2">
                     <DetailCliente id={cliente.id} />
@@ -100,10 +93,10 @@ export default async function ClientesTable({ query, currentPage }) {
                     {cliente.endereco}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {formatCurrency(cliente.proposta)}
+                    {formatCurrency(19900)}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {cliente.data}
+                    {formatDateToLocal(cliente.criadoem)}
                   </td>
                   {/* <td className="whitespace-nowrap px-3 py-3">
                     <ClienteStatus status={cliente.status} />

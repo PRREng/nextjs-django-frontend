@@ -16,7 +16,7 @@ export default async function Page({ params }) {
           Projeto
         </h1>
         <div className="flex-1"></div>
-        <UpdateProjeto />
+        <UpdateProjeto id={id} />
         <GerarProposta />
       </div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -26,7 +26,7 @@ export default async function Page({ params }) {
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <Suspense fallback={<ClienteDetailSkeleton />}>
-          <ClienteDetail />
+          <ClienteDetail id={id} />
         </Suspense>
         <Suspense fallback={<LatestUCsSkeleton />}>
           <LatestUCs client_id={id} />

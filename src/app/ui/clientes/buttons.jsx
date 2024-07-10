@@ -76,7 +76,7 @@ export function DeleteUC({ id }) {
 export function UpdateProjeto({ id }) {
   return (
     <Link
-      href={`/dashboard/clientes/${id}/editar`}
+      href={`/dashboard/clientes/${id}/editar-projeto`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />

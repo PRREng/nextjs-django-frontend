@@ -10,7 +10,7 @@ import { GerarDocumento, UpdateCliente } from '../clientes/buttons';
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-export default async function ClienteDetail() {
+export default async function ClienteDetail({ id }) {
 //   const revenue = await fetchRevenue();
 
 //   const chartHeight = 350;
@@ -40,7 +40,7 @@ export default async function ClienteDetail() {
                     <UserIcon className='w-8 h-8 px-1' />
                     <p className='px-1'>Roberto Felipe Menezes</p>
                     <div className="flex-1"></div>
-                    <UpdateCliente />
+                    <UpdateCliente id={id}/>
                 </div>
                 <div className='flex items-center'>
                     <PhoneIcon className='w-8 h-8 px-1' />

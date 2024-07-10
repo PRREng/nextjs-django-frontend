@@ -1,3 +1,7 @@
+import { useAuth } from '@/components/authProvider';
+// import { useEffect } from 'react';
+import useSWR from 'swr';
+
 import Pagination from '@/app/ui/clientes/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/clientes/table';
@@ -5,6 +9,7 @@ import { CreateCliente } from '@/app/ui/clientes/buttons';
 import { lusitana } from '@/app/ui/fonts';
 import { ClientesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
+import { fetchClientes, fetcher } from '@/lib/fetching';
 // import { fetchInvoicesPages } from '@/app/lib/data';
 // import { Metadata } from 'next';
 
@@ -13,8 +18,19 @@ import { Suspense } from 'react';
 //   title: 'Clientes',
 // };
 
+const CLIENTES_API_URL = "/api/clientes/";
  
 export default async function Page({ searchParams }) {
+
+  // const auth = useAuth();
+
+  // useEffect(() => {
+  //   if (error?.status === 401) {
+  //       //
+  //       auth.loginRequiredRedirect();
+  //   }
+  // }, [auth, error]);
+
 
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
