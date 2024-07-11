@@ -236,7 +236,71 @@ export async function fetchClientes() {
     const response = await fetch(DJANGO_API_CLIENTES_URL, options);
     console.log(response);
     const result = await response.json();
-    let status = response.status;
+    const status = response.status;
 
-    return result;
+    return {result, status: status};
+}
+
+export async function fetchCliente(id) {
+  const CLIENTE_DETAIL_URL = `http://127.0.0.1:8001/api/clientes/${id}/`
+  const authToken = getToken();
+  if (!authToken) {
+    return NextResponse.json({}, {status: 401});
+  }
+
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": `Bearer ${authToken}`,
+    },
+  }
+  const response = await fetch(CLIENTE_DETAIL_URL, options);
+  if (response.ok) {
+    return await response.json()
+  }
+  return NextResponse.json({}, {status: 400});
+}
+
+export async function fetchUCs(client_id) {
+  const UCS_LIST_URL = `http://127.0.0.1:8001/api/ucs/${client_id}/`
+  const authToken = getToken();
+  if (!authToken) {
+    return NextResponse.json({}, {status: 401});
+  }
+
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": `Bearer ${authToken}`,
+    },
+  }
+
+  const response = await fetch(UCS_LIST_URL, options);
+
+  if (response.ok) {
+    return await response.json();
+  }
+
+  return NextResponse.json({}, {status: 400});
+
+
+}
+
+const ENDERECO_API_URL = ""
+export function getEndereco(client_id) {
+  const enderecoId = getUsinaEndereco(client_id);
+  const endereco = fetch()
+  return "Armando Barros";
+}
+
+export function getProposta(client_id) {
+  return 19900;
+}
+
+export function getUsinaEndereco(client_id) {
+  return ;
 }

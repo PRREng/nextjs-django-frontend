@@ -49,3 +49,8 @@ export const generatePagination = (currentPage, totalPages) => {
     totalPages,
   ];
 };
+
+
+export function formatEndereco(endereco) {
+  return `${endereco.prefixo_local} ${endereco.rua}, ${endereco.num_logradouro} - ${endereco.bairro}, ${endereco.cidade} - ${endereco.estado}`
+}

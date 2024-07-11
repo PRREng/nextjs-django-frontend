@@ -22,15 +22,6 @@ const CLIENTES_API_URL = "/api/clientes/";
  
 export default async function Page({ searchParams }) {
 
-  // const auth = useAuth();
-
-  // useEffect(() => {
-  //   if (error?.status === 401) {
-  //       //
-  //       auth.loginRequiredRedirect();
-  //   }
-  // }, [auth, error]);
-
 
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;

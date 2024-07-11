@@ -1,15 +1,25 @@
 import { DetailCliente, UpdateCliente, DeleteCliente } from '@/app/ui/clientes/buttons';
 // import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/lib/utils';
-import { fetchClientes } from '@/lib/fetching';
+import { fetchClientes, getEndereco, getProposta } from '@/lib/fetching';
 // import { fetchFilteredInvoices } from '@/app/lib/data';
 
 export default async function ClientesTable({ query, currentPage }) {
 //   const invoices = await fetchFilteredInvoices(query, currentPage);
 
-    const clientes = await fetchClientes();
-    console.log(typeof clientes);
+    const response = await fetchClientes();
+    if (response.status !== 200) {
+      console.log("You have to login");
+    }
+    let clientes = response.result;
+    // console.log(typeof clientes);
     console.log(clientes);
+    clientes = clientes?.map((cliente) => {
+      const endereco = getEndereco(cliente.id);
+      const proposta = getProposta(cliente.id);
+      return {...cliente, endereco, proposta};
+    });
+    console.log(`Clientes: ${clientes}`);
     // console.log(clientes[0].criadoem);
     // console.log(typeof clientes[0].criadoem);
 
@@ -35,7 +45,7 @@ export default async function ClientesTable({ query, currentPage }) {
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
                     <p className="text-xl font-medium">
-                      {formatCurrency(1990000)}
+                      {formatCurrency(cliente.proposta)}
                     </p>
                     <p>{cliente.criadoem}</p>
                   </div>
@@ -92,7 +102,7 @@ export default async function ClientesTable({ query, currentPage }) {
                     {cliente.endereco}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {formatCurrency(19900)}
+                    {formatCurrency(cliente.proposta)}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {formatDateToLocal(cliente.criadoem)}

@@ -9,35 +9,16 @@ import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import { DeleteUC, UpdateUC } from '../clientes/buttons';
 import Link from 'next/link';
+import { fetchUCs } from '@/lib/fetching';
+import { formatEndereco } from '@/lib/utils';
 // import { fetchLatestInvoices } from '@/app/lib/data';
 export default async function LatestUCs({ client_id }) {
 
 //   const latestInvoices = await fetchLatestInvoices();
-// primeiro é a usina (fetch usina primeiro)
-const latestUCs = [
-    {
-      id: 1,
-      cod: '3/666666-8',
-      endereco: 'Rua Armando Barros, 81. Luzia, Aracaju/SE',
-      categoria: 'Bifásico',
-      tipouc: 'usina',
-      consumo: 300,
-      rescom: 'residencial',
-      tensao: '127/220',
-      tempo: 5,
-    },
-    {
-      id: 2,
-      cod: '3/777777-8',
-      endereco: 'Rua Josino Goveia, 113. Ponto Novo, Aracaju/SE',
-      categoria: 'Bifásico',
-      tipouc: 'compensadora',
-      consumo: 200,
-      rescom: 'residencial',
-      tensao: '127/220',
-      tempo: 8,
-    },
-];
+// (fetch usina primeiro)
+
+  const latestUCs = await fetchUCs(client_id);
+  console.log(latestUCs);
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
@@ -46,9 +27,8 @@ const latestUCs = [
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
         {/* NOTE: comment in this code when you get to this point in the course */}
-
         <div className="bg-white px-6">
-          {latestUCs.map((uc, i) => {
+          {latestUCs && latestUCs?.map((uc, i) => {
             return (
               <div
                 key={uc.id}
@@ -68,7 +48,7 @@ const latestUCs = [
                     height={32}
                   /> */}
                   <div className='w-8 h-8'>
-                    { uc.rescom === 'residencial' ? (
+                    { uc.resideoucomercial === 'Residencial' ? (
                       <HomeModernIcon className={clsx(
                         {
                           'text-orange-400': i === 0,
@@ -78,11 +58,11 @@ const latestUCs = [
                   </div>
                   <div className="min-w-0">
                     <p className="px-5 truncate text-sm font-semibold md:text-base">
-                      {uc.cod}
+                      {uc.num_UC}
                     </p>
                     <p className="px-5 hidden text-sm text-gray-500 sm:block">
-                      {uc.endereco.length > 20 ? uc.endereco.slice(0, 20) + '...'
-                      : uc.endereco}
+                      {formatEndereco(uc.endereco).length > 20 ? formatEndereco(uc.endereco).slice(0, 20) + '...'
+                      : formatEndereco(uc.endereco)}
                     </p>
                   </div>
                 </div>

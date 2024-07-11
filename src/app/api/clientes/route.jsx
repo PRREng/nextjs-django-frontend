@@ -38,12 +38,11 @@ export async function POST(request) {
     if (authToken) {
         headers["Authorization"] = `Bearer ${authToken}`;
     }
+    console.log(`Auth Token: ${authToken}`);
 
     const requestOptions = {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers,
         body: jsonData,
     }
     const response = await fetch(DJANGO_API_CLIENTES_URL, requestOptions);

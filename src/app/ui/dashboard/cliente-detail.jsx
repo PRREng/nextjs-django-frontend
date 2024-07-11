@@ -1,7 +1,7 @@
-import { generateYAxis } from '@/lib/utils';
-import { UserIcon, TrashIcon, PhoneIcon, IdentificationIcon } from '@heroicons/react/24/outline';
+import { UserIcon, PhoneIcon, IdentificationIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 import { GerarDocumento, UpdateCliente } from '../clientes/buttons';
+import { fetchCliente } from '@/lib/fetching';
 // import { fetchRevenue } from '@/app/lib/data';
 
 // This component is representational only.
@@ -11,17 +11,11 @@ import { GerarDocumento, UpdateCliente } from '../clientes/buttons';
 // https://airbnb.io/visx/
 
 export default async function ClienteDetail({ id }) {
-//   const revenue = await fetchRevenue();
 
-//   const chartHeight = 350;
-//   // NOTE: comment in this code when you get to this point in the course
-
-//   const { yAxisLabels, topLabel } = generateYAxis(revenue);
-
-//   if (!revenue || revenue.length === 0) {
-//     return <p className="mt-4 text-gray-400">No data available.</p>;
-//   }
-
+  // fetchClientDetail
+  const cliente = await fetchCliente(id);
+  console.log(`Fetched Client: ${cliente.nome}`)
+  console.log(`Type of Fetched Client: ${typeof cliente.nome}`)
   return (
     <div className="w-full md:col-span-4">
       <div className="mb-4 flex flex-row items-center">
@@ -38,20 +32,20 @@ export default async function ClienteDetail({ id }) {
             <div className='flex flex-col bg-white px-5 py-5 gap-3'>
                 <div className='flex items-center'>
                     <UserIcon className='w-8 h-8 px-1' />
-                    <p className='px-1'>Roberto Felipe Menezes</p>
+                    <p className='px-1'>{cliente.nome}</p>
                     <div className="flex-1"></div>
                     <UpdateCliente id={id}/>
                 </div>
                 <div className='flex items-center'>
                     <PhoneIcon className='w-8 h-8 px-1' />
-                    <p className='px-1'>(79) 99999-8888</p>
+                    <p className='px-1'>{cliente.ddd + cliente.telefone}</p>
                 </div>
                 <div className='flex items-center'>
                     <IdentificationIcon className='w-8 h-8 px-1' />
-                    <p className='px-1'>555.555.555-00</p>
+                    <p className='px-1'>{cliente.cpf}</p>
                 </div>
             </div>
-            <div className='text-gray-400 text-sm px-5 pt-5'>Criado em: 3 de junho, 2024</div>
+            <div className='text-gray-400 text-sm px-5 pt-5'>Criado em: {cliente.criadoem}</div>
         </div>
       </div>
     </div>
