@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { DetailCliente, UpdateCliente, DeleteCliente } from '@/app/ui/clientes/buttons';
 // import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/lib/utils';
@@ -11,8 +10,8 @@ export default async function ClientesTable({ query, currentPage }) {
     const clientes = await fetchClientes();
     console.log(typeof clientes);
     console.log(clientes);
-    console.log(clientes[0].criadoem);
-    console.log(typeof clientes[0].criadoem);
+    // console.log(clientes[0].criadoem);
+    // console.log(typeof clientes[0].criadoem);
 
   return (
     <div className="mt-6 flow-root">

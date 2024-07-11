@@ -2,25 +2,48 @@
 
 import Link from 'next/link';
 import {
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
   IdentificationIcon,
   PhoneIcon,
-  UserCircleIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createClient } from '@/lib/actions'; // dummy for now
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
+
+const ClIENTES_API_URL = "/api/clientes/";
 
 export default function Form() {
-  const initialState = { message: null, errors: {} };
-  // const [state, formAction] = useActionState(createClient, initialState);
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
 
-  // console.log(state);
+    async function handleSubmit(event) {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const objectFromForm = Object.fromEntries(formData);
+      objectFromForm['ddd'] = objectFromForm['telefone'].substring(0, 2);
+      objectFromForm['telefone'] = objectFromForm['telefone'].slice(2);
+      console.log(objectFromForm);
+      const jsonData = JSON.stringify(objectFromForm);
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonData,
+      }
+      const response = await fetch(ClIENTES_API_URL, requestOptions);
+      if (response.ok) {
+        setMessage("Thank you for joining")
+      
+      } else {
+        setError("There was an error with your request. Please try again.")
+      }
+    }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
+      <div>{message && message}</div>
+      <div>{error && error}</div>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
@@ -70,20 +93,20 @@ export default function Form() {
           </div> */}
         </div>
 
-        {/* Invoice Amount */}
+        {/* Phone Number */}
         <div className="mb-4">
-          <label htmlFor="phone" className="mb-2 block text-sm font-medium">
+          <label htmlFor="telefone" className="mb-2 block text-sm font-medium">
             Telefone
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="phone"
-                name="phone"
-                type="number"
+                id="telefone"
+                name="telefone"
+                type="text"
                 placeholder="(XX) 00000-XXXX"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                aria-describedby="phone-error"
+                aria-describedby="telefone-error"
               />
               <PhoneIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -99,9 +122,9 @@ export default function Form() {
           </div> */}
         </div>
 
-        {/* Invoice Status */}
+        {/* Identification */}
         <fieldset>
-          <label htmlFor="phone" className="mb-2 block text-sm font-medium">
+          <label htmlFor="cpf" className="mb-2 block text-sm font-medium">
             CPF / CNPJ
           </label>
           <div className="relative mt-2 rounded-md">
@@ -109,7 +132,7 @@ export default function Form() {
               <input
                 id="cpf"
                 name="cpf"
-                type="number"
+                type="text"
                 placeholder="XXX.XXX.XXX-00"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                 aria-describedby="cpf-error"

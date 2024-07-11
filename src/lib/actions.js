@@ -2,7 +2,7 @@
 
 // import { signIn } from '@/auth';
 // import { sql } from '@vercel/postgres';
-import { AuthError } from 'next-auth';
+// import { AuthError } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 // import { z } from 'zod';
