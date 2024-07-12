@@ -1,20 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import {
-  IdentificationIcon,
-  PhoneIcon,
-  UserIcon,
-} from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createClient } from '@/lib/actions'; // dummy for now
-import { useActionState } from 'react';
+import { useState } from 'react';
+
+const UCS_API_URL = "/api/ucs/";
 
 export default function Form({ client_id }) {
-  const initialState = { message: null, errors: {} };
+//   const initialState = { message: null, errors: {} };
   // const [state, formAction] = useActionState(createClient, initialState);
 
   // console.log(state);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   const prefixos = [
     { id: 0, nome: 'Rua', },
@@ -37,23 +35,75 @@ export default function Form({ client_id }) {
 
   const tensoes = [{id: 0, nome: "127/220"}, {id: 1, nome: "220/380"}];
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    let objectFromForm = Object.fromEntries(formData);
+
+    // get client object first
+    try {
+        const data = await fetch(`/api/clientes/${client_id}/`);
+        const cliente = await data.json();
+        console.log("Cliente selecionado");
+        console.log(cliente);
+    } catch (error) {
+        console.log('There was an error trying to fetch the client data');
+    }
+    console.log("Form Data: ");
+    console.log(objectFromForm);
+
+    // get Categoria object
+    try {
+        const id = 1;
+        const response = await fetch(`/api/ucs/categoria/${id}/`);
+        const categoria = await response.json();
+        console.log("Categoria Selecionada");
+        console.log(categoria);
+    } catch (error) {
+        console.log("Error trying to fetch Categoria");
+    }
+    
+    // get TipoUC object
+    // console.log(categorias[objectFromForm['nomeCategoria']].nome)
+
+    // create address first (POST)
+
+    // const jsonData = JSON.stringify(objectFromForm);
+    // const requestOptions = {
+    //     method: "POST",
+    //     headers: {
+    //     "Content-Type": "application/json",
+    //     },
+    //     body: jsonData,
+    // }
+    // const response = await fetch(UCS_API_URL, requestOptions);
+    // if (response.ok) {
+    //     setMessage("Thank you for creating UC")
+    
+    // } else {
+    //     setError("There was an error with your request. Please try again.")
+    // }
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
+      <div>{message && message}</div>
+      <div>{error && error}</div>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Código da Uc */}
         <div className="mb-4">
-          <label htmlFor="nome" className="mb-2 block text-sm font-medium">
+          <label htmlFor="num_UC" className="mb-2 block text-sm font-medium">
             Código da UC
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="coduc"
-                name="coduc"
+                id="num_UC"
+                name="num_UC"
                 type="text"
                 placeholder="Código"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                aria-describedby="coduc-error"
+                aria-describedby="num_UC-error"
               />
             </div>
           </div>
@@ -64,16 +114,16 @@ export default function Form({ client_id }) {
 
             {/* Prefixo */}
             <div className="mb-4 flex-1">
-                <label htmlFor="prefixo" className="mb-2 block text-sm font-medium">
+                <label htmlFor="prefixo_local" className="mb-2 block text-sm font-medium">
                     Prefixo
                 </label>
                 <div className="relative">
                     <select
-                    id="prefixo"
-                    name="prefixo"
+                    id="prefixo_local"
+                    name="prefixo_local"
                     className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                     defaultValue=""
-                    aria-describedby="prefixo-error"
+                    aria-describedby="prefixo_local-error"
                     >
                     <option value="" disabled>
                         Selecione Prefixo
@@ -108,18 +158,18 @@ export default function Form({ client_id }) {
             </div>
             {/* numero do logradouro */}
             <div className="mb-4 flex-1">
-                <label htmlFor="rua" className="mb-2 block text-sm font-medium">
+                <label htmlFor="num_logradouro" className="mb-2 block text-sm font-medium">
                     Número
                 </label>
                 <div className="relative mt-2 rounded-md">
                     <div className="relative">
                     <input
-                        id="num"
-                        name="num"
+                        id="num_logradouro"
+                        name="num_logradouro"
                         type="text"
                         placeholder="XXX"
                         className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                        aria-describedby="num-error"
+                        aria-describedby="num_logradouro-error"
                     />
                     </div>
                 </div>
@@ -139,11 +189,11 @@ export default function Form({ client_id }) {
                     <div className="flex items-center">
                         <input
                         id="rural"
-                        name="status"
+                        name="seforrural"
                         type="radio"
                         value="rural"
                         className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                        aria-describedby="status-error"
+                        aria-describedby="seforrural-error"
                         />
                         <label
                         htmlFor="rural"
@@ -155,11 +205,11 @@ export default function Form({ client_id }) {
                     <div className="flex items-center">
                         <input
                         id="urbano"
-                        name="status"
+                        name="seforrural"
                         type="radio"
                         value="urbano"
                         className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                        aria-describedby="status-error"
+                        aria-describedby="seforrural-error"
                         />
                         <label
                         htmlFor="urbano"
@@ -175,18 +225,18 @@ export default function Form({ client_id }) {
 
 
             <div className="mb-4 flex-2">
-                <legend htmlFor="complemento" className='mb-2 block text-sm font-medium'>
-                    Complemento
+                <legend htmlFor="bairro" className='mb-2 block text-sm font-medium'>
+                    Bairro
                 </legend>
                 <div className="relative mt-2 rounded-md">
                     <div className="relative">
                         <input
-                        id='complemento'
-                        name='complemento' 
+                        id='bairro'
+                        name='bairro' 
                         type="text"
-                        placeholder='Ap...'
+                        placeholder='...'
                         className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                        aria-describedby='complemento-error'
+                        aria-describedby='bairro-error'
                         />
                     </div>
                 </div>
@@ -244,10 +294,10 @@ export default function Form({ client_id }) {
                 <div className="relative">
                     <select
                     id="categoria"
-                    name="categoria"
+                    name="nomeCategoria"
                     className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                     defaultValue=""
-                    aria-describedby="categoria-error"
+                    aria-describedby="nomeCategoria-error"
                     >
                     <option value="" disabled>
                         Selecione Categoria
@@ -270,10 +320,10 @@ export default function Form({ client_id }) {
                 <div className="relative">
                     <select
                     id="tipouc"
-                    name="tipouc"
+                    name="nomeTipo"
                     className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                     defaultValue=""
-                    aria-describedby="tipouc-error"
+                    aria-describedby="nomeTipo-error"
                     >
                     <option value="" disabled>
                         Tipo de UC
@@ -320,10 +370,10 @@ export default function Form({ client_id }) {
                 <div className="relative">
                     <select
                     id="funcao"
-                    name="funcao"
+                    name="resideoucomercial"
                     className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                     defaultValue=""
-                    aria-describedby="funcao-error"
+                    aria-describedby="resideoucomercial-error"
                     >
                     <option value="" disabled>
                         Selecione Funcao
@@ -345,10 +395,10 @@ export default function Form({ client_id }) {
                 <div className="relative">
                     <select
                     id="tensao"
-                    name="tensao"
+                    name="tensaoNominal"
                     className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                     defaultValue=""
-                    aria-describedby="tensao-error"
+                    aria-describedby="tensaoNominal-error"
                     >
                     <option value="" disabled>
                         Selecione a Tensão
@@ -372,11 +422,11 @@ export default function Form({ client_id }) {
                     <div className="relative">
                         <input
                         id='tempo-posse'
-                        name='tempo-posse' 
+                        name='tempoPosse' 
                         type="number"
                         placeholder='NN'
                         className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                        aria-describedby='tempo-posse-error'
+                        aria-describedby='tempoPosse-error'
                         />
                     </div>
                 </div>

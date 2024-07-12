@@ -263,6 +263,28 @@ export async function fetchCliente(id) {
   return NextResponse.json({}, {status: 400});
 }
 
+export async function fetchCategoria(categoria) {
+  const CATEGORIA_DETAIL_URL = `http://127.0.0.1:8001/api/ucs/categoria/${categoria}/`
+  const authToken = getToken();
+  if (!authToken) {
+    return NextResponse.json({}, {status: 401});
+  }
+
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": `Bearer ${authToken}`,
+    },
+  }
+  const response = await fetch(CATEGORIA_DETAIL_URL, options);
+  if (response.ok) {
+    return await response.json();
+  }
+  return NextResponse.json({}, {status: 400});
+}
+
 export async function fetchUCs(client_id) {
   const UCS_LIST_URL = `http://127.0.0.1:8001/api/ucs/${client_id}/`
   const authToken = getToken();

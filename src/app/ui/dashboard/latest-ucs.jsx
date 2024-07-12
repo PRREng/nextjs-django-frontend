@@ -1,15 +1,13 @@
 import { 
-  ArrowPathIcon,
   HomeModernIcon,
   BuildingStorefrontIcon,
   PlusIcon
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import { DeleteUC, UpdateUC } from '../clientes/buttons';
 import Link from 'next/link';
-import { fetchUCs } from '@/lib/fetching';
+import { fetchCategoria, fetchUCs } from '@/lib/fetching';
 import { formatEndereco } from '@/lib/utils';
 // import { fetchLatestInvoices } from '@/app/lib/data';
 export default async function LatestUCs({ client_id }) {
@@ -18,6 +16,8 @@ export default async function LatestUCs({ client_id }) {
 // (fetch usina primeiro)
 
   const latestUCs = await fetchUCs(client_id);
+  const categoria = await fetchCategoria(1);
+  console.log(`Categoria: ${JSON.stringify(categoria)}`);
   console.log(latestUCs);
 
   return (

@@ -1,3 +1,4 @@
+import { getToken } from "@/lib/auth";
 
 
 export default class ApiProxy {
@@ -16,7 +17,7 @@ export default class ApiProxy {
 
     static async handleFetch(endpoint, requestOptions) {
         let data = {};
-        let status = 500;
+        let status = 200;
         try {
             const response = await fetch(endpoint,
                 requestOptions);
