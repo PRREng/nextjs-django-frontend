@@ -16,8 +16,8 @@ export default async function LatestUCs({ client_id }) {
 // (fetch usina primeiro)
 
   const latestUCs = await fetchUCs(client_id);
-  const categoria = await fetchCategoria(1);
-  console.log(`Categoria: ${JSON.stringify(categoria)}`);
+  // const categoria = await fetchCategoria(1);
+  // console.log(`Categoria: ${JSON.stringify(categoria)}`);
   console.log(latestUCs);
 
   return (

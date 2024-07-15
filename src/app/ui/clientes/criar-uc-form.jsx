@@ -39,50 +39,31 @@ export default function Form({ client_id }) {
     e.preventDefault();
     const formData = new FormData(e.target);
     let objectFromForm = Object.fromEntries(formData);
-
-    // get client object first
-    try {
-        const data = await fetch(`/api/clientes/${client_id}/`);
-        const cliente = await data.json();
-        console.log("Cliente selecionado");
-        console.log(cliente);
-    } catch (error) {
-        console.log('There was an error trying to fetch the client data');
-    }
-    console.log("Form Data: ");
+    objectFromForm.seforrural = objectFromForm.seforrural === "rural";
+    objectFromForm.nomeCategoria = categorias[parseInt(objectFromForm.nomeCategoria)].nome;
+    objectFromForm.nomeTipo = tipoucs[parseInt(objectFromForm.nomeTipo)].nome;
+    objectFromForm.prefixo_local = prefixos[parseInt(objectFromForm.prefixo_local)].nome;
+    objectFromForm.resideoucomercial = funcoes[parseInt(objectFromForm.resideoucomercial)].nome;
+    objectFromForm.tensaoNominal = tensoes[parseInt(objectFromForm.tensaoNominal)].nome;
+    if (!objectFromForm.tempoPosse) {objectFromForm.tempoPosse = 0;}
+    
     console.log(objectFromForm);
-
-    // get Categoria object
-    try {
-        const id = 1;
-        const response = await fetch(`/api/ucs/categoria/${id}/`);
-        const categoria = await response.json();
-        console.log("Categoria Selecionada");
-        console.log(categoria);
-    } catch (error) {
-        console.log("Error trying to fetch Categoria");
+    objectFromForm['cliente_id'] = client_id;
+    const jsonData = JSON.stringify(objectFromForm);
+    const requestOptions = {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: jsonData,
     }
+    const response = await fetch(UCS_API_URL, requestOptions);
+    if (response.ok) {
+        setMessage("Thank you for creating UC")
     
-    // get TipoUC object
-    // console.log(categorias[objectFromForm['nomeCategoria']].nome)
-
-    // create address first (POST)
-
-    // const jsonData = JSON.stringify(objectFromForm);
-    // const requestOptions = {
-    //     method: "POST",
-    //     headers: {
-    //     "Content-Type": "application/json",
-    //     },
-    //     body: jsonData,
-    // }
-    // const response = await fetch(UCS_API_URL, requestOptions);
-    // if (response.ok) {
-    //     setMessage("Thank you for creating UC")
-    
-    // } else {
-    //     setError("There was an error with your request. Please try again.")
-    // }
+    } else {
+        setError("There was an error with your request. Please try again.")
+    }
   }
 
   return (
@@ -280,7 +261,25 @@ export default function Form({ client_id }) {
                 </div>
             </div>
         </div>
-
+        
+        {/* CEP */}
+        <div className="mb-4">
+          <label htmlFor="cep" className="mb-2 block text-sm font-medium">
+            CEP
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="cep"
+                name="CEP"
+                type="text"
+                placeholder="49XXX-XXX"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
+                aria-describedby="cep-error"
+              />
+            </div>
+          </div>
+        </div>
 
 
         {/* Categoria, tipo UC, consumo */}
