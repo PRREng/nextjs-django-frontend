@@ -15,10 +15,11 @@ export default async function LatestUCs({ client_id }) {
 //   const latestInvoices = await fetchLatestInvoices();
 // (fetch usina primeiro)
 
-  const latestUCs = await fetchUCs(client_id);
+  let latestUCs = await fetchUCs(client_id);
   // const categoria = await fetchCategoria(1);
   // console.log(`Categoria: ${JSON.stringify(categoria)}`);
-  console.log(latestUCs);
+  if (!latestUCs) {latestUCs = []};
+  console.log(`UCs: ${JSON.stringify(latestUCs)}`);
 
   return (
     <div className="flex w-full flex-col md:col-span-4">

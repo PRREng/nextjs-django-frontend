@@ -2,26 +2,47 @@
 
 import Link from 'next/link';
 import {
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
   IdentificationIcon,
   PhoneIcon,
-  UserCircleIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createClient } from '@/lib/actions'; // dummy for now
-import { useActionState } from 'react';
+
+
+const ClIENTES_API_URL = "/api/clientes/";
+
 
 export default function Form({ cliente }) {
-  const initialState = { message: null, errors: {} };
-  console.log(cliente);
-  // const [state, formAction] = useActionState(createClient, initialState);
 
-  // console.log(state);
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const UPDATE_CLIENT_URL = `${ClIENTES_API_URL}${cliente.id}`
+    const formData = new FormData(e.target);
+    const object = Object.fromEntries(formData);
+
+    console.log(object);
+
+    const jsonData = JSON.stringify(object);
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonData,
+    }
+    const response = await fetch(UPDATE_CLIENT_URL, options);
+    if (response.ok) {
+      console.log("Successfully updated Client")
+    } else {
+      console.log("There was an error trying to update client")
+    }
+
+  }
+
+
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
@@ -35,7 +56,7 @@ export default function Form({ cliente }) {
                 name="nome"
                 type="text"
                 placeholder='Nome'
-                defaultValue={'Roberto Menezes'}
+                defaultValue={cliente.nome}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                 aria-describedby="nome-error"
               />
@@ -84,7 +105,7 @@ export default function Form({ cliente }) {
                 name="phone"
                 type="text"
                 placeholder="(XX) 00000-XXXX"
-                defaultValue={'(79) 98888-7777'}
+                defaultValue={`(${cliente.ddd}) ${cliente.telefone}`}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                 aria-describedby="phone-error"
               />
@@ -114,7 +135,7 @@ export default function Form({ cliente }) {
                 name="cpf"
                 type="text"
                 placeholder="XXX.XXX.XXX-00"
-                defaultValue={'555.444.333-00'}
+                defaultValue={cliente.cpf}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                 aria-describedby="cpf-error"
               />

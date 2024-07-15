@@ -5,6 +5,7 @@ import {
     BoltIcon,
   } from '@heroicons/react/24/outline';
   import { lusitana } from '@/app/ui/fonts';
+import { fetchProject } from '@/lib/fetching';
   
 //   import { fetchCardData } from '@/app/lib/data';
   
@@ -15,7 +16,7 @@ import {
     modulos: RectangleStackIcon,
   };
   
-  export default async function CardWrapper() {
+  export default async function CardWrapper({ client_id }) {
     // const {
     //   numberOfInvoices,
     //   numberOfCustomers,
@@ -24,23 +25,20 @@ import {
     // } = await fetchCardData();
 
     const {
-        qtdeModulos,
-        qtdeInv,
-        proposta,
-        consumoprod,
-      } = {
-        qtdeModulos: 10,
-        qtdeInv: 1,
-        proposta: "R$ 19,900.00",
-        consumoprod: [500, 517],
-      };
+      consumoTotal,
+      producaoMedia,
+      qtdeModulos,
+      qtdeInv,
+      valorProposta
+    } = await fetchProject(client_id);
+    const consumo = [consumoTotal, producaoMedia];
     
     return (
       <>
         {/* NOTE: comment in this code when you get to this point in the course */}
   
-        <Card title="Proposta" value={proposta} type="proposta" />
-        <Card title="Consumo / Produção" value={consumoprod} type="consumo" />
+        <Card title="Proposta" value={valorProposta} type="proposta" />
+        <Card title="Consumo / Produção" value={consumo} type="consumo" />
         <Card title="Quantidade de Módulos" value={qtdeModulos} type="modulos" />
         <Card
           title="Quantidade de Inversores"

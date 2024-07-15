@@ -9,12 +9,14 @@ import {
 import { Button } from '@/app/ui/button';
 import { createClient } from '@/lib/actions'; // dummy for now
 import { useActionState, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const ClIENTES_API_URL = "/api/clientes/";
 
 export default function Form() {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const router = useRouter();
 
     async function handleSubmit(event) {
       event.preventDefault();
@@ -34,6 +36,9 @@ export default function Form() {
       const response = await fetch(ClIENTES_API_URL, requestOptions);
       if (response.ok) {
         setMessage("Thank you for joining")
+        // redirect user
+        const {id} = await response.json();
+        router.replace(`/dashboard/clientes/${id}/`);
       
       } else {
         setError("There was an error with your request. Please try again.")

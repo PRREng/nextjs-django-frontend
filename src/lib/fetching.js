@@ -12,80 +12,6 @@
 import { NextResponse } from "next/server";
 import { getToken } from "./auth";
 
-// export async function fetchRevenue() {
-//   try {
-//     // Artificially delay a response for demo purposes.
-//     // Don't do this in production :)
-
-//     console.log('Fetching revenue data...');
-//     await new Promise((resolve) => setTimeout(resolve, 3000));
-
-//     const data = await sql<Revenue>`SELECT * FROM revenue`;
-
-//     console.log('Data fetch completed after 3 seconds.');
-
-//     return data.rows;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch revenue data.');
-//   }
-// }
-
-// export async function fetchLatestInvoices() {
-//   try {
-//     const data = await sql<LatestInvoiceRaw>`
-//       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
-//       FROM invoices
-//       JOIN customers ON invoices.customer_id = customers.id
-//       ORDER BY invoices.date DESC
-//       LIMIT 5`;
-
-//     const latestInvoices = data.rows.map((invoice) => ({
-//       ...invoice,
-//       amount: formatCurrency(invoice.amount),
-//     }));
-//     return latestInvoices;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch the latest invoices.');
-//   }
-// }
-
-// export async function fetchCardData() {
-//   try {
-//     // You can probably combine these into a single SQL query
-//     // However, we are intentionally splitting them to demonstrate
-//     // how to initialize multiple queries in parallel with JS.
-//     const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
-//     const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
-//     const invoiceStatusPromise = sql`SELECT
-//          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
-//          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
-//          FROM invoices`;
-
-//     const data = await Promise.all([
-//       invoiceCountPromise,
-//       customerCountPromise,
-//       invoiceStatusPromise,
-//     ]);
-
-//     const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
-//     const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
-//     const totalPaidInvoices = formatCurrency(data[2].rows[0].paid ?? '0');
-//     const totalPendingInvoices = formatCurrency(data[2].rows[0].pending ?? '0');
-
-//     return {
-//       numberOfCustomers,
-//       numberOfInvoices,
-//       totalPaidInvoices,
-//       totalPendingInvoices,
-//     };
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch card data.');
-//   }
-// }
-
 const ITEMS_PER_PAGE = 6;
 export async function fetchClientesFiltrados(
   query,
@@ -218,7 +144,11 @@ export async function fetchFilteredCustomers(query) {
     throw new Error('Failed to fetch customer table.');
   }
 }
-const DJANGO_API_CLIENTES_URL = "http://127.0.0.1:8001/api/clientes/"
+
+
+
+const DJANGO_API_CLIENTES_URL = "http://127.0.0.1:8001/api/clientes/";
+const DJANGO_API_UCS_URL = "http://127.0.0.1:8001/api/ucs/";
 export async function fetchClientes() {
     const authToken = getToken();
     if (!authToken) {
@@ -242,7 +172,7 @@ export async function fetchClientes() {
 }
 
 export async function fetchCliente(id) {
-  const CLIENTE_DETAIL_URL = `http://127.0.0.1:8001/api/clientes/${id}/`
+  const CLIENTE_DETAIL_URL = `${DJANGO_API_CLIENTES_URL}${id}/`
   const authToken = getToken();
   if (!authToken) {
     return NextResponse.json({}, {status: 401});
@@ -264,7 +194,7 @@ export async function fetchCliente(id) {
 }
 
 export async function fetchCategoria(categoria) {
-  const CATEGORIA_DETAIL_URL = `http://127.0.0.1:8001/api/ucs/categoria/${categoria}/`
+  const CATEGORIA_DETAIL_URL = `${DJANGO_API_UCS_URL}categoria/${categoria}/`
   const authToken = getToken();
   if (!authToken) {
     return NextResponse.json({}, {status: 401});
@@ -312,17 +242,30 @@ export async function fetchUCs(client_id) {
 
 }
 
-const ENDERECO_API_URL = ""
-export function getEndereco(client_id) {
-  const enderecoId = getUsinaEndereco(client_id);
-  const endereco = fetch()
-  return "Armando Barros";
-}
+export async function fetchProject(client_id) {
+  const DJANGO_API_PROJECT_URL = `${DJANGO_API_UCS_URL}${client_id}/projeto/`;
+  const authToken = getToken();
 
-export function getProposta(client_id) {
-  return 19900;
-}
+  if (!authToken) {
+    return NextResponse.json({}, { status: 401 });
+  }
 
-export function getUsinaEndereco(client_id) {
-  return ;
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": `Bearer ${authToken}`,
+    },
+  }
+
+  const response = await fetch(DJANGO_API_PROJECT_URL, options);
+
+  if (response.ok) {
+    return await response.json();
+  }
+
+  return NextResponse.json({}, {status: 400});
+
+
 }

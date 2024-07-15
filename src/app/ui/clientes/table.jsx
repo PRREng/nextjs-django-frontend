@@ -15,11 +15,13 @@ export default async function ClientesTable({ query, currentPage }) {
     // console.log(typeof clientes);
     console.log(clientes);
     clientes = clientes?.map((cliente) => {
-      const endereco = getEndereco(cliente.id);
-      const proposta = getProposta(cliente.id);
+      // const endereco = getEndereco(cliente.id);
+      // const proposta = getProposta(cliente.id);
+      const endereco = "Armando Barros";
+      const proposta = 19900
       return {...cliente, endereco, proposta};
     });
-    console.log(`Clientes: ${clientes}`);
+    // console.log(`Clientes: ${clientes}`);
     // console.log(clientes[0].criadoem);
     // console.log(typeof clientes[0].criadoem);
 
