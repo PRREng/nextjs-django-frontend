@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
+import { useState } from 'react';
 
 const UCS_API_URL = "/api/ucs/";
 
 export default function Form({ client_id, uc }) {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  
 
   const prefixos = [
     { id: 0, nome: 'Rua', },
@@ -18,22 +20,46 @@ export default function Form({ client_id, uc }) {
     { id: 5, nome: 'Tv.', },
   ];
 
+  const preToID = {
+    'Rua': 0,
+    'Av.': 1,
+    'Est.': 2,
+    'Pov.': 3,
+    'Rod.': 4,
+    'Tv.': 5,
+  }
+
   const categorias = [
     { id: 0, nome: 'Monofásico', },
     { id: 1, nome: 'Bifásico', },
     { id: 2, nome: 'Trifásico', },
   ];
 
+
+
   const tipoucs = [{id: 0, nome: "Usina"}, {id: 1, nome: "Compensadora"}];
 
   const funcoes = [{id: 0, nome: "Residencial"}, {id: 1, nome: "Comercial"}];
 
+  const funtoID = {
+    "Residencial": 0,
+    "Comercial": 1,
+  }
+
   const tensoes = [{id: 0, nome: "127/220"}, {id: 1, nome: "220/380"}];
+
+  const tentoID = {
+    "127/220": 0,
+    "220/380": 1,
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     let objectFromForm = Object.fromEntries(formData);
+    // console.log(objectFromForm);
+
+    // process the object so it is serializable in django ninja
     objectFromForm.seforrural = objectFromForm.seforrural === "rural";
     objectFromForm.nomeCategoria = categorias[parseInt(objectFromForm.nomeCategoria)].nome;
     objectFromForm.nomeTipo = tipoucs[parseInt(objectFromForm.nomeTipo)].nome;
@@ -41,9 +67,13 @@ export default function Form({ client_id, uc }) {
     objectFromForm.resideoucomercial = funcoes[parseInt(objectFromForm.resideoucomercial)].nome;
     objectFromForm.tensaoNominal = tensoes[parseInt(objectFromForm.tensaoNominal)].nome;
     if (!objectFromForm.tempoPosse) {objectFromForm.tempoPosse = 0;}
-    
-    console.log(objectFromForm);
     objectFromForm['cliente_id'] = client_id;
+
+    // Log the object to see the fields
+    console.log("Object from edit form");
+    console.log(objectFromForm);
+
+    // preparing the request
     const jsonData = JSON.stringify(objectFromForm);
     const requestOptions = {
         method: "PUT",
@@ -67,21 +97,21 @@ export default function Form({ client_id, uc }) {
       <div>{message && message}</div>
       <div>{error && error}</div>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {/* Código da Uc */}
+        {/* Código da UC */}
         <div className="mb-4">
-          <label htmlFor="nome" className="mb-2 block text-sm font-medium">
+          <label htmlFor="num_UC" className="mb-2 block text-sm font-medium">
             Código da UC
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="coduc"
-                name="coduc"
+                id="num_UC"
+                name="num_UC"
                 type="text"
                 placeholder="Código"
-                defaultValue={uc.cod}
+                defaultValue={uc.num_UC}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                aria-describedby="coduc-error"
+                aria-describedby="num_UC-error"
               />
             </div>
           </div>
@@ -92,16 +122,16 @@ export default function Form({ client_id, uc }) {
 
             {/* Prefixo */}
             <div className="mb-4 flex-1">
-                <label htmlFor="prefixo" className="mb-2 block text-sm font-medium">
+                <label htmlFor="prefixo_local" className="mb-2 block text-sm font-medium">
                     Prefixo
                 </label>
                 <div className="relative">
                     <select
-                    id="prefixo"
-                    name="prefixo"
+                    id="prefixo_local"
+                    name="prefixo_local"
                     className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                    defaultValue={0}
-                    aria-describedby="prefixo-error"
+                    defaultValue={preToID[uc.endereco.prefixo_local]}
+                    aria-describedby="prefixo_local-error"
                     >
                     <option value="" disabled>
                         Selecione Prefixo
@@ -128,7 +158,7 @@ export default function Form({ client_id, uc }) {
                         name="rua"
                         type="text"
                         placeholder="Tancredo Neves"
-                        defaultValue={"Armando Barros"}
+                        defaultValue={uc.endereco.rua}
                         className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                         aria-describedby="rua-error"
                     />
@@ -137,19 +167,19 @@ export default function Form({ client_id, uc }) {
             </div>
             {/* numero do logradouro */}
             <div className="mb-4 flex-1">
-                <label htmlFor="rua" className="mb-2 block text-sm font-medium">
+                <label htmlFor="num_logradouro" className="mb-2 block text-sm font-medium">
                     Número
                 </label>
                 <div className="relative mt-2 rounded-md">
                     <div className="relative">
                     <input
-                        id="num"
-                        name="num"
+                        id="num_logradouro"
+                        name="num_logradouro"
                         type="text"
                         placeholder="XXX"
-                        defaultValue={"103"}
+                        defaultValue={uc.endereco.num_logradouro}
                         className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                        aria-describedby="num-error"
+                        aria-describedby="num_logradouro-error"
                     />
                     </div>
                 </div>
@@ -157,7 +187,7 @@ export default function Form({ client_id, uc }) {
         </div>
 
 
-        {/* Rural ou urbano, complemento, cidade, estado */}
+        {/* Rural ou urbano, bairro, cidade, estado */}
         <div className="flex flex-row gap-5">
             {/* Rural ou urbano */}
             <div className="mb-4 flex-2">
@@ -170,11 +200,12 @@ export default function Form({ client_id, uc }) {
                     <div className="flex items-center">
                         <input
                         id="rural"
-                        name="status"
+                        name="seforrural"
                         type="radio"
                         value="rural"
                         className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                        aria-describedby="status-error"
+                        aria-describedby="seforrural-error"
+                        defaultChecked={uc.endereco.seforrural}
                         />
                         <label
                         htmlFor="rural"
@@ -186,12 +217,12 @@ export default function Form({ client_id, uc }) {
                     <div className="flex items-center">
                         <input
                         id="urbano"
-                        name="status"
+                        name="seforrural"
                         type="radio"
                         value="urbano"
                         className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                        aria-describedby="status-error"
-                        checked
+                        aria-describedby="seforrural-error"
+                        defaultChecked={!uc.endereco.seforrural}
                         />
                         <label
                         htmlFor="urbano"
@@ -205,27 +236,27 @@ export default function Form({ client_id, uc }) {
               </fieldset>
             </div>
 
-            {/* Complemento */}
+            {/* Bairro */}
             <div className="mb-4 flex-2">
-                <legend htmlFor="complemento" className='mb-2 block text-sm font-medium'>
-                    Complemento
+                <legend htmlFor="bairro" className='mb-2 block text-sm font-medium'>
+                    Bairro
                 </legend>
                 <div className="relative mt-2 rounded-md">
                     <div className="relative">
                         <input
-                        id='complemento'
-                        name='complemento' 
+                        id='bairro'
+                        name='bairro' 
                         type="text"
                         placeholder='Ap...'
-                        defaultValue={"Luzia"}
+                        defaultValue={uc.endereco.bairro}
                         className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                        aria-describedby='complemento-error'
+                        aria-describedby='bairro-error'
                         />
                     </div>
                 </div>
             </div>
 
-
+            {/* Cidade */}
             <div className="mb-4 flex-2">
                 <legend htmlFor="cidade" className='mb-2 block text-sm font-medium'>
                     Cidade
@@ -237,7 +268,7 @@ export default function Form({ client_id, uc }) {
                         name='cidade' 
                         type="text"
                         placeholder='Cidade'
-                        defaultValue={"Aracaju"}
+                        defaultValue={uc.endereco.cidade}
                         className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                         aria-describedby='cidade-error'
                         />
@@ -257,7 +288,7 @@ export default function Form({ client_id, uc }) {
                         name='estado'
                         type="text"
                         placeholder='SE..'
-                        defaultValue={"SE"}
+                        defaultValue={uc.endereco.estado}
                         className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                         aria-describedby='estado-error'
                         />
@@ -266,7 +297,25 @@ export default function Form({ client_id, uc }) {
             </div>
         </div>
 
-
+        {/* CEP */}
+        <div className="mb-4">
+          <label htmlFor="cep" className="mb-2 block text-sm font-medium">
+            CEP
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="cep"
+                name="CEP"
+                type="text"
+                placeholder="49XXX-XXX"
+                defaultValue={uc.endereco.CEP}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
+                aria-describedby="cep-error"
+              />
+            </div>
+          </div>
+        </div>
 
         {/* Categoria, tipo UC, consumo */}
         <div className='flex flex-row gap-5'>
@@ -279,10 +328,10 @@ export default function Form({ client_id, uc }) {
                 <div className="relative">
                     <select
                     id="categoria"
-                    name="categoria"
+                    name="nomeCategoria"
                     className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                    defaultValue={1}
-                    aria-describedby="categoria-error"
+                    defaultValue={uc.categoria.id - 1}
+                    aria-describedby="nomeCategoria-error"
                     >
                     <option value="" disabled>
                         Selecione Categoria
@@ -305,10 +354,10 @@ export default function Form({ client_id, uc }) {
                 <div className="relative">
                     <select
                     id="tipouc"
-                    name="tipouc"
+                    name="nomeTipo"
                     className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                    defaultValue={0}
-                    aria-describedby="tipouc-error"
+                    defaultValue={uc.tipoUC.id - 1}
+                    aria-describedby="nomeTipo-error"
                     >
                     <option value="" disabled>
                         Tipo de UC
@@ -335,7 +384,7 @@ export default function Form({ client_id, uc }) {
                         name='consumo' 
                         type="text"
                         placeholder='XXX'
-                        defaultValue={"300"}
+                        defaultValue={uc.consumo}
                         className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                         aria-describedby="consumo-error"
                       />
@@ -356,10 +405,10 @@ export default function Form({ client_id, uc }) {
                 <div className="relative">
                     <select
                     id="funcao"
-                    name="funcao"
+                    name="resideoucomercial"
                     className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                    defaultValue={0}
-                    aria-describedby="funcao-error"
+                    defaultValue={funtoID[uc.resideoucomercial]}
+                    aria-describedby="resideoucomercial-error"
                     >
                     <option value="" disabled>
                         Selecione Funcao
@@ -381,10 +430,10 @@ export default function Form({ client_id, uc }) {
                 <div className="relative">
                     <select
                     id="tensao"
-                    name="tensao"
+                    name="tensaoNominal"
                     className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                    defaultValue={0}
-                    aria-describedby="tensao-error"
+                    defaultValue={tentoID[uc.tensaoNominal]}
+                    aria-describedby="tensaoNominal-error"
                     >
                     <option value="" disabled>
                         Selecione a Tensão
@@ -408,12 +457,12 @@ export default function Form({ client_id, uc }) {
                     <div className="relative">
                         <input
                         id='tempo-posse'
-                        name='tempo-posse' 
+                        name='tempoPosse' 
                         type="number"
                         placeholder='NN'
-                        defaultValue={uc.tempo}
+                        defaultValue={uc.tempoPosse}
                         className="peer block w-full rounded-md border border-gray-200 py-2 pl-5 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                        aria-describedby='tempo-posse-error'
+                        aria-describedby='tempoPosse-error'
                         />
                     </div>
                 </div>
