@@ -2,15 +2,12 @@
 
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-// import { createClient } from '@/lib/actions'; // dummy for now
-// import { useActionState } from 'react';
+
+const UCS_API_URL = "/api/ucs/";
 
 export default function Form({ client_id, uc }) {
-  const initialState = { message: null, errors: {} };
-  // const [state, formAction] = useActionState(createClient, initialState);
-
-  // console.log(state);
-  const prefixo_id = 0;
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   const prefixos = [
     { id: 0, nome: 'Rua', },
@@ -33,8 +30,42 @@ export default function Form({ client_id, uc }) {
 
   const tensoes = [{id: 0, nome: "127/220"}, {id: 1, nome: "220/380"}];
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    let objectFromForm = Object.fromEntries(formData);
+    objectFromForm.seforrural = objectFromForm.seforrural === "rural";
+    objectFromForm.nomeCategoria = categorias[parseInt(objectFromForm.nomeCategoria)].nome;
+    objectFromForm.nomeTipo = tipoucs[parseInt(objectFromForm.nomeTipo)].nome;
+    objectFromForm.prefixo_local = prefixos[parseInt(objectFromForm.prefixo_local)].nome;
+    objectFromForm.resideoucomercial = funcoes[parseInt(objectFromForm.resideoucomercial)].nome;
+    objectFromForm.tensaoNominal = tensoes[parseInt(objectFromForm.tensaoNominal)].nome;
+    if (!objectFromForm.tempoPosse) {objectFromForm.tempoPosse = 0;}
+    
+    console.log(objectFromForm);
+    objectFromForm['cliente_id'] = client_id;
+    const jsonData = JSON.stringify(objectFromForm);
+    const requestOptions = {
+        method: "PUT",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: jsonData,
+    }
+
+    const UC_UPDATE_API_URL = `${UCS_API_URL}${uc.id}/`
+    const response = await fetch(UC_UPDATE_API_URL, requestOptions);
+    if (response.ok) {
+        setMessage("Thank you for updating UC")
+    } else {
+        setError("There was an error with your request. Please try again.")
+    }
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
+      <div>{message && message}</div>
+      <div>{error && error}</div>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Código da Uc */}
         <div className="mb-4">
