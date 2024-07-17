@@ -74,7 +74,7 @@ export default async function LatestUCs({ client_id }) {
                 </p>
                 <div className="flex justify-end gap-2">
                   <UpdateUC client_id={client_id} uc_id={uc.id} />
-                  <DeleteUC id={uc.id} />
+                  <DeleteUC client_id={client_id} uc_id={uc.id} />
                 </div>
               </div>
             );

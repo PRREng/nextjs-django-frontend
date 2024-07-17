@@ -1,4 +1,4 @@
-import { deleteCliente } from '@/lib/fetching';
+import { deleteCliente, deleteUC } from '@/lib/fetching';
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 // import { deleteInvoice } from '@/app/lib/actions';
@@ -61,11 +61,11 @@ export function UpdateUC({ client_id, uc_id }) {
   );
 }
 
-export function DeleteUC({ id }) {
-  // const deleteUCWithId = .bind(null, id);
+export function DeleteUC({ client_id, uc_id }) {
+  const deleteUCWithId = deleteUC.bind(null, client_id, uc_id);
 
   return (
-    <form>
+    <form action={deleteUCWithId}>
       <button className="rounded-md border p-2 hover:bg-gray-100">
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />

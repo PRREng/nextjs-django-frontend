@@ -83,7 +83,7 @@ export default function Form({ client_id, uc }) {
         body: jsonData,
     }
 
-    const UC_UPDATE_API_URL = `${UCS_API_URL}${uc.id}/`
+    const UC_UPDATE_API_URL = `${UCS_API_URL}${client_id}/${uc.id}/`
     const response = await fetch(UC_UPDATE_API_URL, requestOptions);
     if (response.ok) {
         setMessage("Thank you for updating UC")

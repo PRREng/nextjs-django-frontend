@@ -3,24 +3,16 @@
 import Link from 'next/link';
 import {
   RectangleStackIcon,
-  IdentificationIcon,
   RectangleGroupIcon,
   BanknotesIcon,
-  UserIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createClient } from '@/lib/actions'; // dummy for now
-import { useActionState } from 'react';
 
-export default function Form({ cliente }) {
-  const initialState = { message: null, errors: {} };
-  console.log(cliente);
-  // const [state, formAction] = useActionState(createClient, initialState);
-  const modulos = [
-    {nome: "TSUN - T123"},
-    {nome: "SUNOVA - SS321"},
-  ];
-  // console.log(state);
+export default function Form({ client_id, projeto, modulos }) {
+
+  console.log(modulos);
+  console.log(projeto);
+
   return (
     <form>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
@@ -43,7 +35,7 @@ export default function Form({ cliente }) {
                 </option>
                 {modulos.map((modulo) => (
                     <option key={modulo.id} value={modulo.id}>
-                    {modulo.nome}
+                    {modulo.modelo}
                     </option>
                 ))}
                 </select>
@@ -108,7 +100,7 @@ export default function Form({ cliente }) {
                 name="qtdeMod"
                 type="number"
                 placeholder="XXX"
-                defaultValue={10}
+                defaultValue={projeto.qtdeModulos}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                 aria-describedby="qtdeMod-error"
               />
@@ -129,7 +121,7 @@ export default function Form({ cliente }) {
                 name="proposta"
                 type="number"
                 placeholder="XXX.XXX.XXX-00"
-                defaultValue={19900}
+                defaultValue={projeto.valorProposta}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
                 aria-describedby="proposta-error"
               />
@@ -140,7 +132,7 @@ export default function Form({ cliente }) {
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href={`/dashboard/clientes/${cliente.id}`}
+          href={`/dashboard/clientes/${client_id}`}
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancelar

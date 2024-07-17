@@ -1,19 +1,11 @@
 import Form from '@/app/ui/clientes/editar-projeto-form';
 import Breadcrumbs from '@/app/ui/clientes/breadcrumbs';
-// import { fetchCustomers, fetchInvoiceById } from '@/app/lib/data';
-import { notFound } from 'next/navigation';
+import { fetchProject, getModulos } from '@/lib/fetching';
 
 export default async function Page({ params }) {
     const id = params.id;
-    const cliente = {id: 1, nome: 'Roberto'};
-    // const [invoice, customers] = await Promise.all([
-    //     fetchInvoiceById(id),
-    //     fetchCustomers(),
-    // ]);
-
-    // if (!invoice) {
-    //     notFound();
-    // }
+    const projeto = await fetchProject(id);
+    const modulos = await getModulos();
 
     return (
         <main>
@@ -28,7 +20,7 @@ export default async function Page({ params }) {
                     },
                 ]}
             />
-            <Form cliente={cliente} />
+            <Form client_id={id} projeto={projeto} modulos={modulos} />
         </main>
     )
 }
