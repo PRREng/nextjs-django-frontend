@@ -254,7 +254,6 @@ export async function gerarPropostaSimples(id) {
   const options = {
     method: "GET",
     headers: {
-      "Content-Type": "blob",
       "Authorization": `Bearer ${authToken}`,
     },
   }

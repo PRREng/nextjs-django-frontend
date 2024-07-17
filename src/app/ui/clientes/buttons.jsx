@@ -1,6 +1,7 @@
 import { deleteCliente, deleteUC, gerarPropostaSimples } from '@/lib/fetching';
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { NextResponse } from 'next/server';
 // import { deleteInvoice } from '@/app/lib/actions';
 
 export function CreateCliente() {
@@ -86,10 +87,41 @@ export function UpdateProjeto({ id }) {
 }
 
 export function GerarProposta({ id }) {
+  "use client"
   const gerarProposta = gerarPropostaSimples.bind(null, id); 
+
+  const handleDownload = async () => {
+
+    const DJANGO_GERAR_PROPOSTA_SIMPLES_URL = `http://127.0.0.1:8001/api/clientes/${id}/gerar_simples/`;
+    const authToken = getToken();
+    if (!authToken) {
+      return NextResponse.json({}, {status: 401});
+    }
+
+    const options = {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${authToken}`,
+      },
+    }
+    const response = await fetch(DJANGO_GERAR_PROPOSTA_SIMPLES_URL, options);
+    if (!response.ok) {
+      console.log("Error fetching proposta")
+    }
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "proposta.pptx";
+    a.click();
+    
+  }
+
+
   return (
-    <form action={gerarProposta}>
-      <button className="rounded-md bg-gray-300 border p-2 hover:bg-gray-100">
+    <form onSubmit={handleDownload}>
+      <button type='submit'
+      className="rounded-md bg-gray-300 border p-2 hover:bg-gray-100">
         <span className="sr-only">Gerar</span>
         Gerar Proposta
       </button>
