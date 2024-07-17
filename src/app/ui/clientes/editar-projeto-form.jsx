@@ -7,14 +7,48 @@ import {
   BanknotesIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
+import { useState } from 'react';
+
+const PROJETOS_API_URL = "/api/projetos/";
 
 export default function Form({ client_id, projeto, modulos }) {
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
-  console.log(modulos);
-  console.log(projeto);
+  // console.log(modulos);
+  // console.log(projeto);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const UPDATE_PROJETO_URL = `${PROJETOS_API_URL}${client_id}/`;
+    const formData = new FormData(e.target);
+    const object = Object.fromEntries(formData);
+
+    object.modulo_id = parseInt(object.modulo_id);
+    object.qtdeModulos = parseInt(object.qtdeModulos);
+    object.valorProposta = parseInt(object.valorProposta);
+
+    const jsonData = JSON.stringify(object);
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonData,
+    }
+    const response = await fetch(UPDATE_PROJETO_URL, options);
+    if (response.ok) {
+      setMessage("Thank you for updating Projeto");
+    } else {
+      setError("There was an error with your request. Please try again.");
+    }
+
+  }
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
+      <div>{message && message}</div>
+      <div>{error && error}</div>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
 
         {/* Módulo Solar */}
@@ -25,10 +59,10 @@ export default function Form({ client_id, projeto, modulos }) {
             <div className="relative">
                 <select
                 id="modulo"
-                name="modulo"
+                name="modulo_id"
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                defaultValue={0}
-                aria-describedby="modulo-error"
+                defaultValue={projeto.modulo.id - 1}
+                aria-describedby="modulo_id-error"
                 >
                 <option value="" disabled>
                     Selecione o Módulo
@@ -44,7 +78,7 @@ export default function Form({ client_id, projeto, modulos }) {
         </div>
 
         {/* Micro ou Inversor */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
               <fieldset>
                 <legend className="mb-2 block text-sm font-medium">
                     Micro ou Inversor
@@ -86,7 +120,7 @@ export default function Form({ client_id, projeto, modulos }) {
                     </div>
                 </div>
               </fieldset>
-            </div>
+        </div> */}
 
         {/* Quantidade de Módulos */}
         <div className='mb-4'>
@@ -97,12 +131,12 @@ export default function Form({ client_id, projeto, modulos }) {
             <div className="relative">
               <input
                 id="qtdeMod"
-                name="qtdeMod"
+                name="qtdeModulos"
                 type="number"
                 placeholder="XXX"
                 defaultValue={projeto.qtdeModulos}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                aria-describedby="qtdeMod-error"
+                aria-describedby="qtdeModulos-error"
               />
               <RectangleGroupIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -118,12 +152,12 @@ export default function Form({ client_id, projeto, modulos }) {
             <div className="relative">
               <input
                 id="proposta"
-                name="proposta"
+                name="valorProposta"
                 type="number"
                 placeholder="XXX.XXX.XXX-00"
                 defaultValue={projeto.valorProposta}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 focus:outline-orange-300"
-                aria-describedby="proposta-error"
+                aria-describedby="valorProposta-error"
               />
               <BanknotesIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>

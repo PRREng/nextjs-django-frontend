@@ -1,4 +1,4 @@
-import { deleteCliente, deleteUC } from '@/lib/fetching';
+import { deleteCliente, deleteUC, gerarPropostaSimples } from '@/lib/fetching';
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 // import { deleteInvoice } from '@/app/lib/actions';
@@ -86,13 +86,14 @@ export function UpdateProjeto({ id }) {
 }
 
 export function GerarProposta({ id }) {
+  const gerarProposta = gerarPropostaSimples.bind(null, id); 
   return (
-    <Link
-      href={`/dashboard/clientes/${id}`}
-      className="rounded-md bg-gray-200 border p-2 hover:bg-gray-400"
-    >
-      Gerar Proposta
-    </Link>
+    <form action={gerarProposta}>
+      <button className="rounded-md bg-gray-300 border p-2 hover:bg-gray-100">
+        <span className="sr-only">Gerar</span>
+        Gerar Proposta
+      </button>
+    </form>
   );
 }
 

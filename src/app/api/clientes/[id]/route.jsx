@@ -1,8 +1,7 @@
-import { getToken } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import ApiProxy from "../../proxy";
 
-const DJANGO_API_CLIENTE_URL = `http://127.0.0.1:8001/api/clientes/`
+const DJANGO_API_CLIENTE_URL = "http://127.0.0.1:8001/api/clientes/";
 
 // get the client details
 export async function GET(request, {params}) {

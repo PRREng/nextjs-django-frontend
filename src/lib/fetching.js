@@ -242,3 +242,65 @@ export async function getModulos() {
 
 
 }
+
+export async function gerarPropostaSimples(id) {
+  "use server"
+  const DJANGO_GERAR_PROPOSTA_SIMPLES_URL = `http://127.0.0.1:8001/api/clientes/${id}/gerar_simples/`;
+  const authToken = getToken();
+  if (!authToken) {
+    return NextResponse.json({}, {status: 401});
+  }
+
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "blob",
+      "Authorization": `Bearer ${authToken}`,
+    },
+  }
+  const response = await fetch(DJANGO_GERAR_PROPOSTA_SIMPLES_URL, options);
+  if (!response.ok) {
+    return NextResponse.json({}, {status: 400});
+  }
+
+  console.log("HEADERS");
+  console.log(response.headers);
+  if (typeof window === undefined) {
+    console.log("RETURNING BUFFER");
+    const buffer = await response.buffer();
+    return buffer;
+  } else {
+
+    try {
+      // Client-side handling (browser environment)
+      const blob = await response.blob();
+      console.log("GOT THE BLOB");
+      const url = URL.createObjectURL(blob); // THIS LINE IS NOT WORKING
+      console.log("GOT THE URL");
+
+      // use anchor tag to initiate download
+      const a = document.createElement('a');
+      console.log("GOT THE ANCHOR TAG");
+      a.style.display = 'none';
+      console.log("SET THE DISPLAY NONE");
+      a.href = url;
+      console.log("SET HREF TO THE FILE URL");
+      a.download = 'Proposta.pptx'; // Set default filename here
+      console.log("SET FILENAME HERE");
+
+
+      document.body.appendChild(a);
+      console.log("APPEND CHILD TO BODY");
+      a.click();
+      console.log("CLICKED IT");
+
+      window.URL.revokeObjectURL(url);
+      console.log("REVOKED OBJECT URL");
+      document.body.removeChild(a);
+      console.log("REMOVED CHILD");
+
+    } catch(error) {
+      console.error("Error downloading");
+    }
+  }
+}

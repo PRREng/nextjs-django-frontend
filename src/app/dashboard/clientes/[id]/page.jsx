@@ -17,7 +17,7 @@ export default async function Page({ params }) {
         </h1>
         <div className="flex-1"></div>
         <UpdateProjeto id={id} />
-        <GerarProposta />
+        <GerarProposta id={id} />
       </div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>
