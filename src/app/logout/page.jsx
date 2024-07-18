@@ -18,7 +18,6 @@ export default function Page() {
         }
         const response = await fetch(LOGOUT_URL, requestOptions);
         if (response.ok) {
-            console.log("logged out");
             auth.logout();
         }
     }

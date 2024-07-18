@@ -24,11 +24,9 @@ export default function Page() {
 
     const { data, error, isLoading } = useSWR(CLIENTES_API_URL, fetcher);
     const auth = useAuth();
-    console.log(error?.status);
 
     useEffect(() => {
         if (error?.status === 401) {
-            //
             auth.loginRequiredRedirect();
         }
     }, [auth, error]);

@@ -1,29 +1,21 @@
-import { DetailCliente, UpdateCliente, DeleteCliente } from '@/app/ui/clientes/buttons';
-// import InvoiceStatus from '@/app/ui/invoices/status';
+import { DetailCliente, DeleteCliente } from '@/app/ui/clientes/buttons';
 import { formatDateToLocal, formatCurrency } from '@/lib/utils';
-import { fetchClientes, getEndereco, getProposta } from '@/lib/fetching';
-// import { fetchFilteredInvoices } from '@/app/lib/data';
+import { fetchClientes } from '@/lib/fetching';
 
 export default async function ClientesTable({ query, currentPage }) {
-//   const invoices = await fetchFilteredInvoices(query, currentPage);
+
 
     const response = await fetchClientes();
     if (response.status !== 200) {
       console.log("You have to login");
     }
     let clientes = response.result;
-    // console.log(typeof clientes);
-    console.log(clientes);
     clientes = clientes?.map((cliente) => {
-      // const endereco = getEndereco(cliente.id);
-      // const proposta = getProposta(cliente.id);
+      // BUG TO SOLVE
       const endereco = "Armando Barros";
       const proposta = 19900
       return {...cliente, endereco, proposta};
     });
-    // console.log(`Clientes: ${clientes}`);
-    // console.log(clientes[0].criadoem);
-    // console.log(typeof clientes[0].criadoem);
 
   return (
     <div className="mt-6 flow-root">
@@ -42,7 +34,6 @@ export default async function ClientesTable({ query, currentPage }) {
                     </div>
                     <p className="text-sm text-gray-500">{cliente.endereco}</p>
                   </div>
-                  {/* <ClienteStatus status={cliente.status} /> */}
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
@@ -74,9 +65,6 @@ export default async function ClientesTable({ query, currentPage }) {
                 <th scope="col" className="px-3 py-5 font-medium">
                   Data
                 </th>
-                {/* <th scope="col" className="px-3 py-5 font-medium">
-                  Status
-                </th> */}
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Editar</span>
                 </th>
@@ -90,13 +78,6 @@ export default async function ClientesTable({ query, currentPage }) {
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                      {/* <Image
-                        src={cliente.image_url}
-                        className="rounded-full"
-                        width={28}
-                        height={28}
-                        alt={`${cliente.name}'s profile picture`}
-                      /> */}
                       <p>{cliente.nome}</p>
                     </div>
                   </td>
@@ -109,9 +90,6 @@ export default async function ClientesTable({ query, currentPage }) {
                   <td className="whitespace-nowrap px-3 py-3">
                     {formatDateToLocal(cliente.criadoem)}
                   </td>
-                  {/* <td className="whitespace-nowrap px-3 py-3">
-                    <ClienteStatus status={cliente.status} />
-                  </td> */}
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <DetailCliente id={cliente.id} />

@@ -5,7 +5,7 @@ import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { CardsSkeleton, ClienteDetailSkeleton, LatestUCsSkeleton } from '@/app/ui/skeletons';
 import { UpdateProjeto } from '@/app/ui/clientes/buttons';
-import { GerarProposta } from '@/app/ui/download';
+import { GerarProposta, GerarPropostaGrande } from '@/app/ui/download';
  
 export default async function Page({ params }) {
     const { id } = params;
@@ -19,6 +19,7 @@ export default async function Page({ params }) {
         <div className="flex-1"></div>
         <UpdateProjeto id={id} />
         <GerarProposta id={id} />
+        <GerarPropostaGrande id={id} />
       </div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>

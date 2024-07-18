@@ -22,7 +22,6 @@ export default function Form({ cliente }) {
 
     object['ddd'] = object['telefone'].substring(0, 2);
     object['telefone'] = object['telefone'].slice(2);
-    console.log(object);
 
     const jsonData = JSON.stringify(object);
     const options = {

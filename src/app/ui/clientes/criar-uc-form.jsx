@@ -7,10 +7,6 @@ import { useState } from 'react';
 const UCS_API_URL = "/api/ucs/";
 
 export default function Form({ client_id }) {
-//   const initialState = { message: null, errors: {} };
-  // const [state, formAction] = useActionState(createClient, initialState);
-
-  // console.log(state);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
@@ -47,7 +43,6 @@ export default function Form({ client_id }) {
     objectFromForm.tensaoNominal = tensoes[parseInt(objectFromForm.tensaoNominal)].nome;
     if (!objectFromForm.tempoPosse) {objectFromForm.tempoPosse = 0;}
     
-    console.log(objectFromForm);
     objectFromForm['cliente_id'] = client_id;
     const jsonData = JSON.stringify(objectFromForm);
     const requestOptions = {

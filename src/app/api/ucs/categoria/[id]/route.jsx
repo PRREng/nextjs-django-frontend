@@ -1,11 +1,9 @@
-import { getToken } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import ApiProxy from "../../../proxy";
 
 const DJANGO_API_CATEGORIA_URL = "http://127.0.0.1:8001/api/ucs/categoria/";
 
 export async function GET(request, {params}) {
-    console.log(`That's Categoria ID: ${params.id}`)
     const url = `${DJANGO_API_CATEGORIA_URL}${params.id}/`;
     const {data, status} = await ApiProxy.get(url, true);
     return NextResponse.json(data, {status: status});

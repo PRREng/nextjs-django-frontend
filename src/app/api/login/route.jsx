@@ -19,7 +19,6 @@ export async function POST(request) {
     const response = await fetch(DJANGO_API_LOGIN_URL, requestOptions);
     const responseData = await response.json();
     if (response.ok) {
-        console.log("logged in")
         const { access, refresh } = responseData;
         setToken(access);
         setRefreshToken(refresh);

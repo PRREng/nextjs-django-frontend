@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import ApiProxy from "../../proxy";
+import ApiProxy from "../../../proxy";
 
 const DJANGO_API_CLIENTES_URL = "http://127.0.0.1:8001/api/clientes/"
 
 export async function GET(request, {params}) {
-    const DJANGO_DOWNLOAD_PROPOSTA_URL = `${DJANGO_API_CLIENTES_URL}${params.id}/gerar_simples/`;
+    const DJANGO_DOWNLOAD_PROPOSTA_URL = `${DJANGO_API_CLIENTES_URL}${params.id}/gerar_grande/`;
     const {response, status} = await ApiProxy.get_download(DJANGO_DOWNLOAD_PROPOSTA_URL);
 
     // Check if response is a blob

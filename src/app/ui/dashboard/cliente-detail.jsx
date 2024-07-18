@@ -1,21 +1,14 @@
 import { UserIcon, PhoneIcon, IdentificationIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
-import { GerarDocumento, UpdateCliente } from '../clientes/buttons';
+import { UpdateCliente } from '../clientes/buttons';
 import { fetchCliente } from '@/lib/fetching';
-// import { fetchRevenue } from '@/app/lib/data';
+import { GerarContrato, GerarProcuracao, GerarTermoDePosse } from '../download';
 
-// This component is representational only.
-// For data visualization UI, check out:
-// https://www.tremor.so/
-// https://www.chartjs.org/
-// https://airbnb.io/visx/
 
 export default async function ClienteDetail({ id }) {
 
-  // fetchClientDetail
   const cliente = await fetchCliente(id);
-  console.log(`Fetched Client: ${cliente.nome}`)
-  console.log(`Type of Fetched Client: ${typeof cliente.nome}`)
+
   return (
     <div className="w-full md:col-span-4">
       <div className="mb-4 flex flex-row items-center">
@@ -23,9 +16,10 @@ export default async function ClienteDetail({ id }) {
           Detalhe
         </h2>
         <div className="flex-1"></div>
-        <GerarDocumento />
+        <GerarProcuracao id={id} />
+        <GerarTermoDePosse id={id} />
+        <GerarContrato id={id} />
       </div>
-      {/* NOTE: comment in this code when you get to this point in the course */}
 
       <div className="rounded-xl bg-gray-50 p-4">
         <div className="flex flex-col">

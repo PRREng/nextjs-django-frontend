@@ -7,8 +7,7 @@ import {
   UserIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createClient } from '@/lib/actions'; // dummy for now
-import { useActionState, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 const ClIENTES_API_URL = "/api/clientes/";
@@ -24,7 +23,7 @@ export default function Form() {
       const objectFromForm = Object.fromEntries(formData);
       objectFromForm['ddd'] = objectFromForm['telefone'].substring(0, 2);
       objectFromForm['telefone'] = objectFromForm['telefone'].slice(2);
-      console.log(objectFromForm);
+
       const jsonData = JSON.stringify(objectFromForm);
       const requestOptions = {
         method: "POST",

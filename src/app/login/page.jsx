@@ -7,7 +7,7 @@ export default function Page() {
 
     async function handleSubmit (event) {
         event.preventDefault();
-        console.log(event, event.target);
+
         const formData = new FormData(event.target);
         const objectFromForm = Object.fromEntries(formData);
         const jsonData = JSON.stringify(objectFromForm);
@@ -19,9 +19,7 @@ export default function Page() {
             body: jsonData,
         }
         const response = await fetch(LOGIN_URL, requestOptions);
-        //const data = await response.json();
         if (response.ok) {
-            console.log("logged in");
             auth.login();
         }
     }

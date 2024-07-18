@@ -57,7 +57,6 @@ export default function Form({ client_id, uc }) {
     e.preventDefault();
     const formData = new FormData(e.target);
     let objectFromForm = Object.fromEntries(formData);
-    // console.log(objectFromForm);
 
     // process the object so it is serializable in django ninja
     objectFromForm.seforrural = objectFromForm.seforrural === "rural";
@@ -68,10 +67,6 @@ export default function Form({ client_id, uc }) {
     objectFromForm.tensaoNominal = tensoes[parseInt(objectFromForm.tensaoNominal)].nome;
     if (!objectFromForm.tempoPosse) {objectFromForm.tempoPosse = 0;}
     objectFromForm['cliente_id'] = client_id;
-
-    // Log the object to see the fields
-    console.log("Object from edit form");
-    console.log(objectFromForm);
 
     // preparing the request
     const jsonData = JSON.stringify(objectFromForm);
