@@ -30,6 +30,24 @@ export default class ApiProxy {
         }
         return {data, status};
     }
+
+    static async handleBlob(endpoint, requestOptions) {
+        let data = {};
+        let status = 200;
+        let response;
+        try {
+            response = await fetch(endpoint,
+                requestOptions);
+            // data = await response.blob();
+        } catch (error) {
+            data = {message: "Cannot reach API server.",
+                error: error,
+            }
+            status = 500;
+            response = data;
+        }
+        return {response, status};
+    }
     
     static async post(endpoint, object, requireAuth) {
         const jsonData = JSON.stringify(object);
@@ -63,5 +81,16 @@ export default class ApiProxy {
             headers,
         }
         return await ApiProxy.handleFetch(endpoint, requestOptions);
+    }
+
+    static async get_download(endpoint) {
+        const authToken = getToken();
+        const requestOptions = {  
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${authToken}`,
+            },
+        }
+        return await ApiProxy.handleBlob(endpoint, requestOptions);
     }
 }

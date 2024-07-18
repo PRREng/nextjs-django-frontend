@@ -4,7 +4,8 @@ import LatestUCs from '@/app/ui/dashboard/latest-ucs';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { CardsSkeleton, ClienteDetailSkeleton, LatestUCsSkeleton } from '@/app/ui/skeletons';
-import { GerarProposta, UpdateProjeto } from '@/app/ui/clientes/buttons';
+import { UpdateProjeto } from '@/app/ui/clientes/buttons';
+import { GerarProposta } from '@/app/ui/download';
  
 export default async function Page({ params }) {
     const { id } = params;
