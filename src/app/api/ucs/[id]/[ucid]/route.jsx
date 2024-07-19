@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import ApiProxy from "../../../proxy";
+import { DJANGO_API_ENDPOINT } from "@/config/defaults";
 
-const DJANGO_API_UCS_URL = "http://127.0.0.1:8001/api/ucs/";
+const DJANGO_API_UCS_URL = `${DJANGO_API_ENDPOINT}/ucs/`;
 
 export async function PUT(request, {params}) {
     const UPDATE_CLIENT_API_URL = `${DJANGO_API_UCS_URL}${params.id}/${params.ucid}/`;

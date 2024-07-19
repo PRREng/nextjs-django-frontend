@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import ApiProxy from "../../../proxy";
+import { DJANGO_API_ENDPOINT } from "@/config/defaults";
 
-const DJANGO_API_CATEGORIA_URL = "http://127.0.0.1:8001/api/ucs/categoria/";
+const DJANGO_API_CATEGORIA_URL = `${DJANGO_API_ENDPOINT}/ucs/categoria/`;
 
 export async function GET(request, {params}) {
     const url = `${DJANGO_API_CATEGORIA_URL}${params.id}/`;

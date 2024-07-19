@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import ApiProxy from "../../proxy";
+import { DJANGO_API_ENDPOINT } from "@/config/defaults";
 
 
-const DJANGO_API_PROJETOS_URL = "http://127.0.0.1:8001/api/projetos/";
+const DJANGO_API_PROJETOS_URL = `${DJANGO_API_ENDPOINT}/projetos/`;
 
 export async function PUT(request, {params}) {
     const UPDATE_PROJETO_API_URL = `${DJANGO_API_PROJETOS_URL}${params.id}/`;

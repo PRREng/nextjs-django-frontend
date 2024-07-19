@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import ApiProxy from "../../../proxy";
+import { DJANGO_API_ENDPOINT } from "@/config/defaults";
 
-const DJANGO_API_CLIENTES_URL = "http://127.0.0.1:8001/api/clientes/"
+const DJANGO_API_CLIENTES_URL = `${DJANGO_API_ENDPOINT}/clientes/`;
 
 export async function GET(request, {params}) {
     const DJANGO_DOWNLOAD_CONTRATO_URL = `${DJANGO_API_CLIENTES_URL}${params.id}/contrato/`;
