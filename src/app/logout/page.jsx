@@ -25,9 +25,9 @@ export default function Page() {
     return (
         <div className="h-[95vh]">
             <div className="max-w-md mx-auto py-5">
-                <h1>Are you sure you want to logout?</h1>
+                <h1>Certeza que deseja sair?</h1>
                 <button className="bg-red-500 text-white px-3 py-2 hover:bg-red-300" 
-                onClick={handleClick}>Yes, logout</button>
+                onClick={handleClick}>Sim, sair.</button>
             </div>
         </div>
     )

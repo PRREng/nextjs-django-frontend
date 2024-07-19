@@ -6,7 +6,7 @@ const { createContext, useContext, useState, useEffect } = require("react");
 
 const AuthContext = createContext(null);
 
-const LOGIN_REDIRECT_URL = "/";
+const LOGIN_REDIRECT_URL = "/dashboard";
 const LOGOUT_REDIRECT_URL = "/login";
 const LOGIN_REQUIRED_URL = "/login";
 const LOCAL_STORAGE_KEY = "is-logged-in";
