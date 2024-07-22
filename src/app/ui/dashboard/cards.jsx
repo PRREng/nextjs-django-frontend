@@ -17,12 +17,6 @@ import { fetchProject } from '@/lib/fetching';
   };
   
   export default async function CardWrapper({ client_id }) {
-    // const {
-    //   numberOfInvoices,
-    //   numberOfCustomers,
-    //   totalPaidInvoices,
-    //   totalPendingInvoices,
-    // } = await fetchCardData();
 
     const {
       consumoTotal,

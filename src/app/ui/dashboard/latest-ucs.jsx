@@ -24,7 +24,7 @@ export default async function LatestUCs({ client_id }) {
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
 
         <div className="bg-white px-6">
-          {latestUCs && latestUCs?.map((uc, i) => {
+          {latestUCs.length && latestUCs?.map((uc, i) => {
             return (
               <div
                 key={uc.id}
