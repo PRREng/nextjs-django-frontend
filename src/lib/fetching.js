@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import { getToken } from "./auth";
 import { revalidatePath } from "next/cache";
+import { DJANGO_API_ENDPOINT } from "@/config/defaults";
 
 
-const DJANGO_API_CLIENTES_URL = "http://127.0.0.1:8001/api/clientes/";
-const DJANGO_API_UCS_URL = "http://127.0.0.1:8001/api/ucs/";
-const DJANGO_API_PROJETOS_URL = "http://127.0.0.1:8001/api/projetos/";
-const DJANGO_API_MODULOS_URL = "http://127.0.0.1:8001/api/modulos/";
+const DJANGO_API_CLIENTES_URL = `${DJANGO_API_ENDPOINT}/clientes/`;
+const DJANGO_API_UCS_URL = `${DJANGO_API_ENDPOINT}/ucs/`;
+const DJANGO_API_PROJETOS_URL = `${DJANGO_API_ENDPOINT}/projetos/`;
+const DJANGO_API_MODULOS_URL = `${DJANGO_API_ENDPOINT}/modulos/`;
 
 
 export async function fetchClientes() {
