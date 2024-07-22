@@ -25,7 +25,7 @@ export async function fetchClientes() {
         }
     }
     const response = await fetch(DJANGO_API_CLIENTES_URL, options);
-    console.log(response);
+    // console.log(response);
     const result = await response.json();
     const status = response.status;
 

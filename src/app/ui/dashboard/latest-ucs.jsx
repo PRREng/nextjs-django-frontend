@@ -14,7 +14,8 @@ import { formatEndereco } from '@/lib/utils';
 export default async function LatestUCs({ client_id }) {
 
 
-  let latestUCs = await fetchUCs(client_id);
+  const latestUCs = await fetchUCs(client_id);
+  // console.log(latestUCs);
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
@@ -24,7 +25,7 @@ export default async function LatestUCs({ client_id }) {
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
 
         <div className="bg-white px-6">
-          {latestUCs.length && latestUCs?.map((uc, i) => {
+          {latestUCs.length > 0 ? latestUCs?.map((uc, i) => {
             return (
               <div
                 key={uc.id}
@@ -66,7 +67,9 @@ export default async function LatestUCs({ client_id }) {
                 </div>
               </div>
             );
-          })}
+          }) :
+          (<div></div>)
+        }
         </div>
         <div className="flex justify-center items-center pb-2 pt-6">
           <Link href={`/dashboard/clientes/${client_id}/criar-uc`} className='bg-orange-300 cursor-pointer hover:bg-orange-400 w-20 rounded-lg flex justify-center items-center'>
