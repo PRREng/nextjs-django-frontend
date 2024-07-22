@@ -15,7 +15,6 @@ export default async function LatestUCs({ client_id }) {
 
 
   let latestUCs = await fetchUCs(client_id);
-  if (!latestUCs) {latestUCs = []};
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
