@@ -9,16 +9,10 @@ import { CreateCliente } from '@/app/ui/clientes/buttons';
 import { lusitana } from '@/app/ui/fonts';
 import { ClientesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
-import { fetchClientes, fetcher } from '@/lib/fetching';
-// import { fetchInvoicesPages } from '@/app/lib/data';
-// import { Metadata } from 'next';
 
 
-// export const metadata = {
-//   title: 'Clientes',
-// };
 
-const CLIENTES_API_URL = "/api/clientes/";
+
  
 export default async function Page({ searchParams }) {
 
