@@ -1,7 +1,3 @@
-import { useAuth } from '@/components/authProvider';
-// import { useEffect } from 'react';
-import useSWR from 'swr';
-
 import Pagination from '@/app/ui/clientes/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/clientes/table';
