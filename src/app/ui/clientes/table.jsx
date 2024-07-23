@@ -24,7 +24,8 @@ export default async function ClientesTable({ query, currentPage }) {
           method: "GET",
           headers: {
               "Content-Type": "application/json",
-          }
+          },
+          cache: "no-store",
       }
       const response = await fetch(CLIENTES_API_URL, options);
       const result = await response.json();
