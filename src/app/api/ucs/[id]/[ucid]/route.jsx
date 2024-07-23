@@ -11,3 +11,11 @@ export async function PUT(request, {params}) {
         requestData, true);
     return NextResponse.json(data, {status: status});
 }
+
+export async function DELETE(request, {params}) {
+    const DELETE_CLIENT_API_URL = `${DJANGO_API_UCS_URL}${params.id}/${params.ucid}/`;
+    const requestData = await request.json();
+    const {data, status} = await ApiProxy.delete(DELETE_CLIENT_API_URL, 
+        requestData, true);
+    return NextResponse.json(data, {status: status});
+}

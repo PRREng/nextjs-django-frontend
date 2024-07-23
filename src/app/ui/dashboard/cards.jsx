@@ -7,8 +7,6 @@ import {
   import { lusitana } from '@/app/ui/fonts';
 import { fetchProject } from '@/lib/fetching';
   
-//   import { fetchCardData } from '@/app/lib/data';
-  
   const iconMap = {
     proposta: BanknotesIcon,
     inversores: ArrowPathRoundedSquareIcon,

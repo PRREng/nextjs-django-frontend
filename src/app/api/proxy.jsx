@@ -83,6 +83,16 @@ export default class ApiProxy {
         return await ApiProxy.handleFetch(endpoint, requestOptions);
     }
 
+    static async delete(endpoint, requireAuth) {
+
+        const headers = await ApiProxy.getHeaders(requireAuth);
+        const requestOptions = {
+            method: "DELETE",
+            headers,
+        }
+        return await ApiProxy.handleFetch(endpoint, requestOptions);
+    }
+
     static async get_download(endpoint) {
         const authToken = getToken();
         const requestOptions = {  
