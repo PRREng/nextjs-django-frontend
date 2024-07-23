@@ -8,7 +8,7 @@ import { UpdateProjeto } from '@/app/ui/clientes/buttons';
 import { GerarProposta, GerarPropostaGrande } from '@/app/ui/download';
  
 
-export const dynamic = "force-dynamic";
+export const fetchCache = 'only-cache'; // Ensure all fetch requests opt into caching by default
 
 export default async function Page({ params }) {
     const { id } = params;
