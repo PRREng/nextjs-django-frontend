@@ -1,7 +1,8 @@
 import { DetailCliente, DeleteCliente } from '@/app/ui/clientes/buttons';
 import { formatDateToLocal, formatCurrency } from '@/lib/utils';
-import { fetchClientes } from '@/lib/fetching';
 
+
+const CLIENTES_API_URL = "/api/clientes/";
 export default async function ClientesTable({ query, currentPage }) {
 
 
@@ -16,6 +17,21 @@ export default async function ClientesTable({ query, currentPage }) {
       const proposta = 19900
       return {...cliente, endereco, proposta};
     });
+
+    async function fetchClientes() {
+
+      const options = { 
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json",
+          }
+      }
+      const response = await fetch(CLIENTES_API_URL, options);
+      const result = await response.json();
+      const status = response.status;
+  
+      return {result, status: status};
+    }
 
   return (
     <div className="mt-6 flow-root">
