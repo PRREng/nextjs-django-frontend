@@ -1,13 +1,11 @@
 import { UserIcon, PhoneIcon, IdentificationIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 import { UpdateCliente } from '../clientes/buttons';
-import { fetchCliente } from '@/lib/fetching';
 import { GerarContrato, GerarProcuracao, GerarTermoDePosse } from '../download';
 
 
-export default async function ClienteDetail({ id }) {
+export default async function ClienteDetail({ cliente }) {
 
-  const cliente = await fetchCliente(id);
 
   return (
     <div className="w-full md:col-span-4">

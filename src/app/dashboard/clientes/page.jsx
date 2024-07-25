@@ -15,8 +15,7 @@ export default async function Page({ searchParams }) {
 
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-
-//   const totalPages = await fetchInvoicesPages(query);    
+   
   const totalPages = 3;
 
 
@@ -26,10 +25,8 @@ export default async function Page({ searchParams }) {
         <h1 className={`${lusitana.className} text-2xl`}>Clientes</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Suspense fallback={<div>Carregando...</div>}>
-          <Search placeholder="Procurar clientes..." />
-          <CreateCliente />
-        </Suspense>
+        <Search placeholder="Procurar clientes..." />
+        <CreateCliente />
       </div>
       <Suspense key={query + currentPage} fallback={<ClientesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
