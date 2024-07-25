@@ -3,7 +3,7 @@ import ClienteDetail from '@/app/ui/dashboard/cliente-detail';
 import LatestUCs from '@/app/ui/dashboard/latest-ucs';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
-import { ClienteDetailSkeleton, LatestUCsSkeleton } from '@/app/ui/skeletons';
+import { CardsSkeleton, LatestUCsSkeleton } from '@/app/ui/skeletons';
 import { UpdateProjeto } from '@/app/ui/clientes/buttons';
 import { GerarProposta, GerarPropostaGrande } from '@/app/ui/download';
 import { fetchCliente } from '@/lib/fetching';
@@ -27,14 +27,14 @@ export default async function Page({ params }) {
         <GerarPropostaGrande id={id} />
       </div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {/* <Suspense fallback={<CardsSkeleton />}> */}
-          <CardWrapper cliente={cliente} />
-        {/* </Suspense> */}
+        <Suspense fallback={<CardsSkeleton />}>
+          <CardWrapper client_id={id} />
+        </Suspense>
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <Suspense fallback={<ClienteDetailSkeleton />}>
-          <ClienteDetail id={id} />
-        </Suspense>
+        {/* <Suspense fallback={<ClienteDetailSkeleton />}> */}
+          <ClienteDetail cliente={cliente} />
+        {/* </Suspense> */}
         <Suspense fallback={<LatestUCsSkeleton />}>
           <LatestUCs client_id={id} />
         </Suspense>
