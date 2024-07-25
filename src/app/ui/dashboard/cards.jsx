@@ -14,15 +14,14 @@ import { fetchProject } from '@/lib/fetching';
     modulos: RectangleStackIcon,
   };
   
-  export default async function CardWrapper({ client_id }) {
+  export default async function CardWrapper({
+    consumoTotal,
+    producaoMedia,
+    qtdeModulos,
+    qtdeInv,
+    valorProposta
+  }) {
 
-    const {
-      consumoTotal,
-      producaoMedia,
-      qtdeModulos,
-      qtdeInv,
-      valorProposta
-    } = await fetchProject(client_id);
     const consumo = [consumoTotal, producaoMedia];
     
     return (

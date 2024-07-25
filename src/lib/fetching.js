@@ -49,7 +49,7 @@ export async function fetchCliente(id) {
   }
   const response = await fetch(CLIENTE_DETAIL_URL, options);
   if (response.ok) {
-    return await response.json()
+    return await response.json();
   }
   return NextResponse.json({}, {status: 400});
 }

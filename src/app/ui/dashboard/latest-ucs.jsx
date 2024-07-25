@@ -7,14 +7,11 @@ import clsx from 'clsx';
 import { lusitana } from '@/app/ui/fonts';
 import { DeleteUC, UpdateUC } from '../clientes/buttons';
 import Link from 'next/link';
-import { fetchUCs } from '@/lib/fetching';
 import { formatEndereco } from '@/lib/utils';
 
 
-export default async function LatestUCs({ client_id }) {
+export default async function LatestUCs({ latestUCs, client_id }) {
 
-
-  const latestUCs = await fetchUCs(client_id);
 
   return (
     <div className="flex w-full flex-col md:col-span-4">

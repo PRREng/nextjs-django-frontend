@@ -14,9 +14,9 @@ export default async function ClienteDetail({ cliente }) {
           Detalhe
         </h2>
         <div className="flex-1"></div>
-        <GerarProcuracao id={id} />
-        <GerarTermoDePosse id={id} />
-        <GerarContrato id={id} />
+        <GerarProcuracao id={cliente.id} />
+        <GerarTermoDePosse id={cliente.id} />
+        <GerarContrato id={cliente.id} />
       </div>
 
       <div className="rounded-xl bg-gray-50 p-4">
@@ -26,7 +26,7 @@ export default async function ClienteDetail({ cliente }) {
                     <UserIcon className='w-8 h-8 px-1' />
                     <p className='px-1'>{cliente.nome}</p>
                     <div className="flex-1"></div>
-                    <UpdateCliente id={id}/>
+                    <UpdateCliente id={cliente.id}/>
                 </div>
                 <div className='flex items-center'>
                     <PhoneIcon className='w-8 h-8 px-1' />
